@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.6, a living document
+**Status:** Draft v0.7, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -210,20 +210,16 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 - The content is the decoration. There are no illustrations, gradients, shadows-on-everything, or emoji.
 
 ### 9.2 Typography
-- **Libre Baskerville** (Google Fonts) throughout: wordmark, UI, questions, and answers. It has Regular, Italic, and Bold weights only, so hierarchy comes from **size and spacing**, not weight.
-- The wordmark "asktgp" is set in Bold, lowercase.
-- Suggested type scale. Mobile sizes are the base; desktop sizes apply from `lg`:
+- **Libre Baskerville** (Google Fonts, variable weight 400–700) throughout: wordmark, UI, questions, and answers.
+- **Exactly three type styles across the whole site**, at every screen size. Nothing else is allowed:
 
-| Use | Mobile | Desktop (`lg`) |
-|---|---|---|
-| Wordmark | 26 / 1.1 | 32 / 1.1 |
-| Expanded question | 22 / 1.3 | 28 / 1.3 |
-| Short answer (the hero of the expanded view) | 32 / 1.15 | 40 / 1.15 |
-| Long answer body (max width about 65 characters) | 16 / 1.7 | 17 / 1.7 |
-| Input text | 16 / 1.5 | 16 / 1.5 |
-| Tile text | 15 / 1.5 | 15 / 1.5 |
-| Labels ("Short answer", date, nav) | 12 / 1.4 | 13 / 1.4 |
+| Style | Size / line height | Weight | Used for |
+|---|---|---|---|
+| Body | 16 / 1.6 | Regular | Long answer, tile text, input text, page copy |
+| Heading | 16 / 1.5 | Semibold (600) | Wordmark (lowercase), question, short answer, page titles, Submit |
+| Small | 12 / 1.4 | Regular | Labels ("Short answer", date), nav, header links, helper text, credit line, share row |
 
+- Hierarchy comes from weight, colour (`--ink` vs `--ink-muted`) and spacing, not size. Long answer max width is about 65 characters.
 - The long answer is left-aligned with real paragraph breaks. It should never be justified.
 
 ### 9.3 Colour tokens
@@ -252,6 +248,7 @@ Dark mode is out of scope for v1.
 - Rounded grey tiles (radius about 16px), each showing one past question **truncated to 2 lines** with an ellipsis.
 - **Mobile (base):** two columns of tiles with a 12px gap, where every other row is nudged half a tile to one side and bleeds off the screen edge. This keeps the "endless wall" feel from the mockup at phone size. If that test poorly on real phones, fall back to one column of full-width tiles.
 - **Desktop (`lg`):** full brick layout. Tiles are about 265×110px, alternate rows are offset by half a tile, and tiles run off both edges of the screen.
+- Each row drifts slowly from right to left in a seamless loop (about 12 s per tile width); alternate rows start half a tile along. The drift pauses while an answer is open and on hover (desktop), and is off for `prefers-reduced-motion`.
 - Loads more tiles as you scroll (infinite scroll).
 - Ordering is newest first by default (see Open Question 9).
 - A tap gives an immediate pressed state (slightly darker). On desktop, hover darkens the tile slightly. There is no scale bounce.
@@ -360,3 +357,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.4 | Removed the invented 3-second target; the requirement is simply that answers come back immediately. |
 | 27 Sep 2026 | 0.5 | Guest credit set to one line under the answer: "Reference found in conversations with *Guest name*", italic names, comma-separated when several transcripts are used. Episode links removed everywhere; manifest reduced to episode, guest and file. |
 | 27 Sep 2026 | 0.6 | Submit button colour set to `#FF6900` (Open Question 8 resolved). Helper line beside Submit replaced with "Questions are public. Don't include personal information." Repo renamed from `mondo-wiki` to `asktgp` on GitHub; it is the source of truth for code, this PRD and the mockups (`/design-reference`). Transcripts move to the Drive folder "Transcripts" (`1TKhje--sbc4UQjq9HOqziXFLKPsrgJ05`). The Explore page is retired in favour of the homepage wall; `/explore` redirects to `/`. Empty placeholder tiles fill the wall (at least six rows) so it never looks bare. |
+| 27 Sep 2026 | 0.7 | Type reduced to three styles site-wide: 16 Regular (body), 16 Semibold (headings, incl. wordmark, question and short answer), 12 Regular (small). Libre Baskerville loaded as its variable font. Wall rows now drift slowly right to left. |
