@@ -4,8 +4,8 @@ import Link from "next/link";
 // PRD §9.4: mobile — About/Support in the top corners, logo centred below.
 // lg — About, logo, Support on one line.
 export default function Header() {
-  // Logo is 83×29; shown at 33px tall.
-  const wordmark = <Image src="/asktgp-logo.svg" alt="asktgp" width={94} height={33} priority className="block h-[33px] w-auto" />;
+  // Logo is 83×29; shown at 36px tall.
+  const wordmark = <Image src="/asktgp-logo.svg" alt="asktgp" width={103} height={36} priority className="block h-[36px] w-auto" />;
 
   return (
     <header className="px-4 lg:px-9 pt-[max(16px,env(safe-area-inset-top))] lg:pt-7">

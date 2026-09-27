@@ -220,7 +220,7 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 | Small | 12 / 1.4 | Regular | Nav, "Powered by" line, helper text, credit line, share row |
 
 - Hierarchy comes from weight, colour (`--ink` vs `--ink-muted`) and spacing, not size. Long answer max width is about 65 characters.
-- The logo (`public/asktgp-logo.svg`) is an image, shown 33px tall in the header. It sits outside the three type styles.
+- The logo (`public/asktgp-logo.svg`) is an image, shown 36px tall in the header. It sits outside the three type styles.
 - The long answer is left-aligned with real paragraph breaks. It should never be justified.
 
 ### 9.3 Colour tokens
