@@ -15,7 +15,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#ffffff",
+  themeColor: "#faf9f6",
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://asktgp.com";

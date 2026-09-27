@@ -73,8 +73,8 @@ export default function AskBox({ asking, onAsk }: { asking: boolean; onAsk: (q: 
   const card = error
     ? "border-error"
     : focused
-      ? "border-[#b8b8b8] shadow-[0_0_0_4px_rgba(17,17,17,0.04),0_6px_18px_rgba(17,17,17,0.07)]"
-      : "border-line shadow-[0_1px_2px_rgba(17,17,17,0.04),0_2px_8px_rgba(17,17,17,0.04)] hover:border-[#cfcfcf]";
+      ? "border-[#bab6ad] shadow-[0_0_0_4px_rgba(17,17,17,0.04),0_6px_18px_rgba(17,17,17,0.07)]"
+      : "border-line shadow-[0_1px_2px_rgba(17,17,17,0.04),0_2px_8px_rgba(17,17,17,0.04)] hover:border-[#cfcbc3]";
 
   return (
     <form
@@ -90,8 +90,8 @@ export default function AskBox({ asking, onAsk }: { asking: boolean; onAsk: (q: 
       </label>
       {/* A white card sitting in a light tray; the tray's strip carries the
           privacy note, validation messages and the character count. */}
-      <div className="rounded-[20px] border border-[#e6e7ec] bg-tray p-1">
-        <div className={`relative rounded-2xl border bg-bg transition-[border-color,box-shadow] duration-200 ease-out ${card}`}>
+      <div className="rounded-[20px] border border-line bg-tray p-1">
+        <div className={`relative rounded-2xl border bg-surface transition-[border-color,box-shadow] duration-200 ease-out ${card}`}>
           <textarea
             id={id}
             ref={ref}

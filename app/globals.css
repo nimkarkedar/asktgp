@@ -2,19 +2,21 @@
 
 /* Design tokens — PRD §9.3. Dark mode is out of scope for v1. */
 :root {
-  --bg: #ffffff;
+  --bg: #faf9f6; /* warm paper, site-wide */
+  --surface: #ffffff; /* interactive surfaces that lift off the paper */
   --ink: #111111;
   --ink-muted: #656565; /* lightest text colour allowed anywhere */
-  --tile: #d9d9d9;
-  --tile-pressed: #cccccc;
-  --line: #dddddd;
-  --tray: #f4f5fa;
+  --tile: #dddad3;
+  --tile-pressed: #d2cec6;
+  --line: #e2dfd8;
+  --tray: #f1efea;
   --accent: #ff6900;
   --error: #b3261e;
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-tile: var(--tile);

@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.15, a living document
+**Status:** Draft v0.16, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -206,7 +206,7 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 
 ### 9.1 Feel
 - **Notion + Mailchimp.** Notion's calm, generous white space and its quiet, editorial restraint. Mailchimp's confident, slightly warm personality in the wordmark and copy. It should feel mature, minimal, and literary rather than "tech startup".
-- **Black and white.** Colour is used only where it earns attention (see 9.3).
+- **Black and white on warm paper** (`#FAF9F6`). Greys are warm to match. Colour is used only where it earns attention (see 9.3).
 - The content is the decoration. There are no illustrations, gradients, shadows-on-everything, or emoji.
 
 ### 9.2 Typography
@@ -227,12 +227,13 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 
 | Token | Value | Use |
 |---|---|---|
-| `--bg` | `#FFFFFF` | Page |
+| `--bg` | `#FAF9F6` | Page background on every page (warm paper) |
+| `--surface` | `#FFFFFF` | Interactive surfaces that lift off the page (the ask box card, inputs) |
 | `--ink` | `#111111` | All primary text |
 | `--ink-muted` | `#656565` | Helper text, labels, footer. **The lightest text colour allowed anywhere**: no text (including hover, disabled or placeholder states) may be lighter than `#656565`. |
-| `--tile` | `#D9D9D9` (to be refined; possibly lighter, e.g. `#EDEDED`) | Question tiles |
-| `--line` | `#DDDDDD` | Input border |
-| `--tray` | `#F4F5FA` | The tray around the ask box |
+| `--tile` | `#DDDAD3` (pressed `#D2CEC6`) | Question tiles and the question box |
+| `--line` | `#E2DFD8` | Borders |
+| `--tray` | `#F1EFEA` | The tray around the ask box |
 | `--accent` | `#FF6900` | **Submit button only** (decided v0.6) |
 | `--error` | `#B3261E` | Validation messages and the ask box border in its error state only |
 
@@ -365,3 +366,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.13 | Answers open as their own page (`/q/{slug}`, same tab) instead of an overlay, which flickered when switching screens. New questions go to `/ask?q=…`, which hands over to `/q/{slug}`. Close returns to the homepage scroll position when the visitor came from it. |
 | 27 Sep 2026 | 0.14 | Footer added to every page. `--ink-muted` set to `#656565`, the minimum text colour site-wide; hover and disabled states no longer fade text below it. |
 | 27 Sep 2026 | 0.15 | Ask box redesigned from a reference: white card in a light tray whose strip holds the privacy note, validation and counter. "Expect a philosophical answer from 300+ conversations" returns beside Submit. `--tray` token added. |
+| 27 Sep 2026 | 0.16 | Page background is warm paper `#FAF9F6` on every page; tiles, tray and borders retuned to warm greys; the ask box card stays white (`--surface`). |

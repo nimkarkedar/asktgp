@@ -113,7 +113,7 @@ export default function Donate() {
                 const n = parseInt(e.target.value);
                 setAmount(Number.isFinite(n) && n > 0 ? n : 0);
               }}
-              className="w-full rounded-2xl border border-line px-[18px] py-3 t-body bg-bg focus:outline-none focus:border-ink"
+              className="w-full rounded-2xl border border-line px-[18px] py-3 t-body bg-surface focus:outline-none focus:border-ink"
             />
           </label>
 
@@ -125,7 +125,7 @@ export default function Donate() {
                 onClick={() => setAmount(p)}
                 aria-pressed={amount === p}
                 className={`min-h-11 px-4 rounded-full border t-small cursor-pointer transition-colors ${
-                  amount === p ? "border-ink bg-ink text-bg" : "border-line hover:border-ink"
+                  amount === p ? "border-ink bg-ink text-surface" : "border-line hover:border-ink"
                 }`}
               >
                 ₹{p.toLocaleString("en-IN")}
