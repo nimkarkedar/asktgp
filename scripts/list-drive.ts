@@ -65,6 +65,11 @@ async function main() {
   const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID!;
   const [files, ingested] = await Promise.all([listRecursive(folderId), ingestedFileNames()]);
 
+  if (process.argv.includes("--names")) {
+    for (const f of files) console.log(f.path);
+    return;
+  }
+
   const byExt = new Map<string, number>();
   for (const f of files) {
     const ext = f.name.includes(".") ? f.name.split(".").pop()!.toLowerCase() : `(${f.mimeType})`;
