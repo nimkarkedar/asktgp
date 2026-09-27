@@ -66,7 +66,7 @@ export default function Donate() {
     <main className="flex-1">
       <Header />
       <article className="mx-auto max-w-[592px] px-4 pt-12 lg:pt-16 pb-24">
-        <h1 className="t-heading">Support</h1>
+        <h1 className="t-title">Support</h1>
 
         <div className="mt-8 space-y-5 t-body">
           <p>

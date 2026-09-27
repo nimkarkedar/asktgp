@@ -28,7 +28,12 @@
   --font-serif: var(--font-baskerville), Georgia, serif;
 }
 
-/* Type scale: exactly three styles across the site. Use only these. */
+/* Type scale: exactly four styles across the site. Use only these. */
+@utility t-title {
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 700;
+}
 @utility t-body {
   font-size: 16px;
   line-height: 1.6;

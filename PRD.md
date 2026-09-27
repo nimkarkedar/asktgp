@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.16, a living document
+**Status:** Draft v0.17, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -211,12 +211,13 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 
 ### 9.2 Typography
 - **Libre Baskerville** (Google Fonts, variable weight 400–700) throughout: wordmark, UI, questions, and answers.
-- **Exactly three type styles across the whole site**, at every screen size. Nothing else is allowed:
+- **Exactly four type styles across the whole site**, at every screen size. Nothing else is allowed:
 
 | Style | Size / line height | Weight | Used for |
 |---|---|---|---|
+| Title | 24 / 1.3 | Bold (700) | Page titles on About and Support |
 | Body | 16 / 1.6 | Regular | About / Support links, short answer, long answer, tile text, input text, page copy |
-| Heading | 16 / 1.5 | Semibold (600) | Question, "Short answer" / "Long answer" labels, page titles, Submit |
+| Heading | 16 / 1.5 | Semibold (600) | Question, "Short answer" / "Long answer" labels, Submit |
 | Small | 12 / 1.4 | Regular | Nav, "Powered by" line, helper text, credit line, share row |
 
 - Hierarchy comes from weight, colour (`--ink` vs `--ink-muted`) and spacing, not size. Long answer max width is about 65 characters.
@@ -367,3 +368,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.14 | Footer added to every page. `--ink-muted` set to `#656565`, the minimum text colour site-wide; hover and disabled states no longer fade text below it. |
 | 27 Sep 2026 | 0.15 | Ask box redesigned from a reference: white card in a light tray whose strip holds the privacy note, validation and counter. "Expect a philosophical answer from 300+ conversations" returns beside Submit. `--tray` token added. |
 | 27 Sep 2026 | 0.16 | Page background is warm paper `#FAF9F6` on every page; tiles, tray and borders retuned to warm greys; the ask box card stays white (`--surface`). |
+| 27 Sep 2026 | 0.17 | Fourth type style added: Title, 24px Bold, for the About and Support page titles. |

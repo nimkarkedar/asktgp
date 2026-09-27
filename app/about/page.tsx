@@ -7,7 +7,7 @@ export default function About() {
     <main className="flex-1">
       <Header />
       <article className="mx-auto max-w-[592px] px-4 pt-12 lg:pt-16 pb-24">
-        <h1 className="t-heading">About</h1>
+        <h1 className="t-title">About</h1>
         <div className="mt-8 space-y-5 t-body">
           <p>
             Ask TGP is an AI oracle built on conversations that{" "}
