@@ -1,5 +1,3 @@
-import type { Source } from "@/lib/qa";
-
 // Answer content shared by the /q/{slug} page and the /ask page.
 
 export function Label({ children }: { children: React.ReactNode }) {
@@ -17,11 +15,9 @@ export function QuestionBox({ question }: { question: string }) {
 export function AnswerBody({
   shortAnswer,
   longAnswer,
-  sources = [],
 }: {
   shortAnswer: string;
   longAnswer: string;
-  sources?: Source[];
 }) {
   const paragraphs = longAnswer.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
 
@@ -40,18 +36,6 @@ export function AnswerBody({
           ))}
         </div>
       </div>
-
-      {sources.length > 0 && (
-        <p className="mt-8 t-small">
-          Reference found in conversations with{" "}
-          {sources.map((s, i) => (
-            <span key={s.guest}>
-              {i > 0 && ", "}
-              <i>{s.guest}</i>
-            </span>
-          ))}
-        </p>
-      )}
     </div>
   );
 }

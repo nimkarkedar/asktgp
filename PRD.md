@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.17, a living document
+**Status:** Draft v0.18, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -64,7 +64,6 @@ Every question and answer is:
 3. A new tile appears on the wall and expands into the answer panel.
 4. The **short answer** appears first (e.g. "51% on foot.").
 5. The **long answer** streams in below it (150–200 words).
-6. The guest credit line ("Reference found in conversations with *Guest name*") appears.
 7. The URL changes to the Q&A's own page (e.g. `asktgp.com/q/how-does-mumbai-travel-k3x9`).
 8. Share buttons appear: copy link, WhatsApp, X, LinkedIn.
 
@@ -267,7 +266,7 @@ Tapping a tile opens the answer as **its own page** in the same tab (a normal li
 2. **Question** (Heading style).
 3. Label "Short answer" (bold), then the short answer (regular).
 4. Label "Long answer" (bold), then the 150–200 word answer (regular).
-5. **Guest credit line:** "Reference found in conversations with <i>Guest name</i>". Guest names are in italics. When the answer draws on more than one transcript, the names are comma-separated, e.g. "Reference found in conversations with <i>Guest A</i>, <i>Guest B</i>". Plain text only, with no links. The names come from the episode manifest (Section 6.2) for the passages used to write the answer.
+5. *(No guest credit line is shown, v0.18. Sources are still stored with each Q&A.)*
 6. Share row: Copy link · WhatsApp · X · LinkedIn.
 7. **Navigation:** `← PREVIOUS   × CLOSE   NEXT →` in small caps with letter-spacing, centred at the bottom. Previous (newer) and Next (older) move through answers in wall order and replace the current history entry, so Back still returns to where the visitor came from. Neighbouring answers are prefetched. **Close** goes back to the homepage at the same scroll position when the visitor came from it; otherwise (e.g. a shared link) it opens the homepage at the top.
 
@@ -369,3 +368,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.15 | Ask box redesigned from a reference: white card in a light tray whose strip holds the privacy note, validation and counter. "Expect a philosophical answer from 300+ conversations" returns beside Submit. `--tray` token added. |
 | 27 Sep 2026 | 0.16 | Page background is warm paper `#FAF9F6` on every page; tiles, tray and borders retuned to warm greys; the ask box card stays white (`--surface`). |
 | 27 Sep 2026 | 0.17 | Fourth type style added: Title, 24px Bold, for the About and Support page titles. |
+| 27 Sep 2026 | 0.18 | Guest credit line ("Reference found in conversations with …") removed from the answer page. Sources are still stored per Q&A. |
