@@ -8,6 +8,7 @@
   --tile: #d9d9d9;
   --tile-pressed: #cccccc;
   --line: #dddddd;
+  --tray: #f4f5fa;
   --accent: #ff6900;
   --error: #b3261e;
 }
@@ -19,6 +20,7 @@
   --color-tile: var(--tile);
   --color-tile-pressed: var(--tile-pressed);
   --color-line: var(--line);
+  --color-tray: var(--tray);
   --color-accent: var(--accent);
   --color-error: var(--error);
   --font-serif: var(--font-baskerville), Georgia, serif;

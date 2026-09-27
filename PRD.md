@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.14, a living document
+**Status:** Draft v0.15, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -232,6 +232,7 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 | `--ink-muted` | `#656565` | Helper text, labels, footer. **The lightest text colour allowed anywhere**: no text (including hover, disabled or placeholder states) may be lighter than `#656565`. |
 | `--tile` | `#D9D9D9` (to be refined; possibly lighter, e.g. `#EDEDED`) | Question tiles |
 | `--line` | `#DDDDDD` | Input border |
+| `--tray` | `#F4F5FA` | The tray around the ask box |
 | `--accent` | `#FF6900` | **Submit button only** (decided v0.6) |
 | `--error` | `#B3261E` | Validation messages and the ask box border in its error state only |
 
@@ -240,8 +241,8 @@ Dark mode is out of scope for v1.
 ### 9.4 Homepage layout (`/`)
 **Mobile (base), from top to bottom:**
 1. **Header:** "About" and "Support" as small text links in the top corners. The "asktgp" wordmark is centred below them, with "Powered by <u>The Gyaan Project</u> Podcast" beneath it. The TGP link goes to the podcast.
-2. **Ask box:** a full-width rounded text area with a 16px side margin, styled like an iOS text field: a soft resting shadow; on focus a slightly darker neutral border and a faint grey halo (no colour, no glow). The placeholder "Ask any question on design and art" fades out on focus; nothing moves or resizes between states. An iOS-style clear button (grey circle, white ×) appears once there is text; Esc also clears. It grows as the visitor types (up to about 5 lines). Under the field: validation messages on the left ("Type a question first.", "Add a little more to your question." under 8 characters) and a character counter on the right while focused or filled, turning `--error` from 280/300.
-3. **Submit:** a full-width pill button, at least 48px tall. The helper line "Questions are public. Don't include personal information." sits beneath it in small, muted type.
+2. **Ask box:** a white rounded card (16px radius) sitting in a light tray (`--tray`, 20px radius, 4px inset), 16px side margin. The tray shows as a strip under the card carrying "Questions are public. Don't include personal information." on the left and the character counter on the right (while focused or filled; `--error` from 280/300); validation messages ("Type a question first.", "Add a little more to your question." under 8 characters) replace the privacy note in `--error`. The card behaves like an iOS text field: soft resting shadow, a slightly darker neutral border and faint grey halo on focus (no colour, no glow), placeholder "Ask any question on design and art" fading out on focus, nothing moving or resizing between states (the strip keeps a fixed height), an iOS-style clear button (grey circle, white ×) once there is text, and Esc to clear. It grows as the visitor types (up to about 5 lines).
+3. **Submit:** a pill button in `--accent` with a soft neutral shadow, full width and at least 48px tall on mobile. Beside it (below it on mobile), in Small `--ink-muted`: "Expect a philosophical answer from <u>300+ conversations</u>"; the link goes to About.
 4. A generous vertical gap, then the **questions wall**.
 5. **Footer** on every page, centred, Small style in `--ink-muted`: "© 2016-2026 | The Gyaan Project | Built by Kedar Nimkar". On phones the answer page's Previous / Close / Next bar is sticky, so it rests above the footer rather than covering it.
 
@@ -363,3 +364,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.12 | Answer view opens and closes with a single-layer fade (content rises slightly on open) instead of a shared-element morph from the tile, which stretched text and flickered on close. The wall stays paused until the close fade finishes. |
 | 27 Sep 2026 | 0.13 | Answers open as their own page (`/q/{slug}`, same tab) instead of an overlay, which flickered when switching screens. New questions go to `/ask?q=…`, which hands over to `/q/{slug}`. Close returns to the homepage scroll position when the visitor came from it. |
 | 27 Sep 2026 | 0.14 | Footer added to every page. `--ink-muted` set to `#656565`, the minimum text colour site-wide; hover and disabled states no longer fade text below it. |
+| 27 Sep 2026 | 0.15 | Ask box redesigned from a reference: white card in a light tray whose strip holds the privacy note, validation and counter. "Expect a philosophical answer from 300+ conversations" returns beside Submit. `--tray` token added. |
