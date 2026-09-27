@@ -9,6 +9,7 @@
   --tile-pressed: #cccccc;
   --line: #dddddd;
   --accent: #ff6900;
+  --error: #b3261e;
 }
 
 @theme inline {
@@ -19,6 +20,7 @@
   --color-tile-pressed: var(--tile-pressed);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-error: var(--error);
   --font-serif: var(--font-baskerville), Georgia, serif;
 }
 

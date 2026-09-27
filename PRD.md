@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.10, a living document
+**Status:** Draft v0.11, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -233,13 +233,14 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 | `--tile` | `#D9D9D9` (to be refined; possibly lighter, e.g. `#EDEDED`) | Question tiles |
 | `--line` | `#DDDDDD` | Input border |
 | `--accent` | `#FF6900` | **Submit button only** (decided v0.6) |
+| `--error` | `#B3261E` | Validation messages and the ask box border in its error state only |
 
 Dark mode is out of scope for v1.
 
 ### 9.4 Homepage layout (`/`)
 **Mobile (base), from top to bottom:**
 1. **Header:** "About" and "Support" as small text links in the top corners. The "asktgp" wordmark is centred below them, with "Powered by <u>The Gyaan Project</u> Podcast" beneath it. The TGP link goes to the podcast.
-2. **Ask box:** a full-width rounded text area with a 16px side margin and the placeholder "Ask any question on design and art". It grows as the visitor types (up to about 5 lines). A character counter appears near the 300-character limit.
+2. **Ask box:** a full-width rounded text area with a 16px side margin, styled like an iOS text field: a soft resting shadow; on focus a slightly darker neutral border and a faint grey halo (no colour, no glow). The placeholder "Ask any question on design and art" fades out on focus; nothing moves or resizes between states. An iOS-style clear button (grey circle, white ×) appears once there is text; Esc also clears. It grows as the visitor types (up to about 5 lines). Under the field: validation messages on the left ("Type a question first.", "Add a little more to your question." under 8 characters) and a character counter on the right while focused or filled, turning `--error` from 280/300.
 3. **Submit:** a full-width pill button, at least 48px tall. The helper line "Questions are public. Don't include personal information." sits beneath it in small, muted type.
 4. A generous vertical gap, then the **questions wall**.
 
@@ -361,3 +362,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.8 | The single source of truth for transcripts is the Drive folder `tgp-transcripts-for-asktgp` (`1TW-EMW-39Ki8nSlgzd-fvUbHJbcdve6U`): clean, labelled files. No other transcript folder is used. |
 | 27 Sep 2026 | 0.9 | Answer panel: "Short answer" / "Long answer" labels are bold (Heading style); both answers are regular (Body). The "Asked {date}, {time} IST" line is removed from the panel (`created_at` is still stored). |
 | 27 Sep 2026 | 0.10 | Header uses the new asktgp logo (SVG) at 33px tall instead of a text wordmark. About and Support links are 16px (Body). |
+| 27 Sep 2026 | 0.11 | Ask box restyled as an iOS-style field: static placeholder that fades on focus (no floating label, no movement), neutral focus state with no coloured glow, iOS clear button, validation and counter under the field. `--error` token added. Submit has no glow; subtle press instead. |
