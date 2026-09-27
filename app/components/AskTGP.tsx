@@ -75,8 +75,8 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
     }
   }, [pathname, finishClose]);
 
-  function open(item: WallItem) {
-    setMorphKey(item.key);
+  function open(item: WallItem, morph = true) {
+    setMorphKey(morph ? item.key : null);
     setActiveKey(item.key);
     if (item.slug && item.state === "answered") pushUrl(`/q/${item.slug}`);
   }
@@ -213,7 +213,7 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
           <Header />
           <AskBox asking={asking} onAsk={ask} />
           <div className="mt-20 lg:mt-36">
-            <Wall items={items} hiddenKey={active ? morphKey : null} onOpen={open} />
+            <Wall items={items} hiddenKey={active ? morphKey : null} paused={!!active} onOpen={open} />
             {hasMore && <div ref={sentinel} aria-hidden className="h-px" />}
           </div>
         </main>
