@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import AnswerNav from "../components/AnswerNav";
-import { AnswerBody, Label, QuestionBox } from "../components/AnswerBody";
+import { AnswerBody, QuestionBox } from "../components/AnswerBody";
+import Thinking from "./Thinking";
 
 type Outcome =
   | { kind: "pending" }
@@ -54,16 +55,7 @@ export default function Asking({ question }: { question: string }) {
     <>
       <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-4 lg:pb-0">
         <QuestionBox question={question} />
-        {outcome.kind === "pending" && (
-          <div className="mt-8 px-1 lg:px-4" aria-live="polite">
-            <Label>Short answer</Label>
-            <p className="mt-3 dots text-ink-muted" aria-label="Finding an answer">
-              <span />
-              <span />
-              <span />
-            </p>
-          </div>
-        )}
+        {outcome.kind === "pending" && <Thinking />}
         {outcome.kind === "oos" && <AnswerBody shortAnswer="Not in the archive yet." longAnswer={OOS_LONG} />}
         {outcome.kind === "needsContext" && (
           <AnswerBody
@@ -77,7 +69,8 @@ export default function Asking({ question }: { question: string }) {
           </p>
         )}
       </article>
-      <AnswerNav prev={null} next={null} />
+      {/* Navigation only once there is something to navigate from. */}
+      {outcome.kind !== "pending" && <AnswerNav prev={null} next={null} />}
     </>
   );
 }
