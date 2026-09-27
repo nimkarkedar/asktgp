@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.11, a living document
+**Status:** Draft v0.12, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -256,7 +256,7 @@ Dark mode is out of scope for v1.
 - A tap gives an immediate pressed state (slightly darker). On desktop, hover darkens the tile slightly. There is no scale bounce.
 
 ### 9.6 Expanded answer view
-Tapping a tile **animates it open**. On mobile (base), the tile grows into a **full-screen sheet**. On desktop (`lg`), it grows into a large centred panel and the wall fades behind it. This is a shared-element transition (in Next.js, Framer Motion's `layoutId` does this well). Closing reverses the animation back into the tile.
+Tapping a tile opens the answer as a **full-screen view**, iOS style: the view fades in over about 250 ms while its content rises about 12 px. Closing is a single ~200 ms fade of the whole view, and the wall stays still until the fade has finished. (A shared-element morph from the tile was tried in v0.6–0.11 and dropped: with text inside moving tiles it stretched the text and showed two overlapping boxes.)
 
 **Panel content, in order:**
 1. Header (About / wordmark / Support) stays visible.
@@ -283,7 +283,7 @@ Tapping a tile **animates it open**. On mobile (base), the tile grows into a **f
 
 ### 9.8 Motion principles
 - 250–350 ms, ease-out. Motion should feel calm and deliberate, never bouncy.
-- Respect `prefers-reduced-motion`: use a simple fade instead of the tile expansion.
+- Respect `prefers-reduced-motion`: no drifting wall; panel transitions stay as plain fades.
 
 ### 9.9 Voice of the copy
 - Lowercase wordmark, sentence case everywhere else.
@@ -363,3 +363,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.9 | Answer panel: "Short answer" / "Long answer" labels are bold (Heading style); both answers are regular (Body). The "Asked {date}, {time} IST" line is removed from the panel (`created_at` is still stored). |
 | 27 Sep 2026 | 0.10 | Header uses the new asktgp logo (SVG) at 33px tall instead of a text wordmark. About and Support links are 16px (Body). |
 | 27 Sep 2026 | 0.11 | Ask box restyled as an iOS-style field: static placeholder that fades on focus (no floating label, no movement), neutral focus state with no coloured glow, iOS clear button, validation and counter under the field. `--error` token added. Submit has no glow; subtle press instead. |
+| 27 Sep 2026 | 0.12 | Answer view opens and closes with a single-layer fade (content rises slightly on open) instead of a shared-element morph from the tile, which stretched text and flickered on close. The wall stays paused until the close fade finishes. |

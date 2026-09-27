@@ -1,7 +1,6 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { motion } from "framer-motion";
 import type { WallItem } from "./types";
 
 const MIN_ROWS = 6;
@@ -32,14 +31,12 @@ const TILE = "shrink-0 w-[var(--tile-w)] h-[var(--tile-h)]";
 
 export default function Wall({
   items,
-  hiddenKey,
   paused,
   onOpen,
 }: {
   items: WallItem[];
-  hiddenKey: string | null;
   paused: boolean;
-  onOpen: (item: WallItem, morph: boolean) => void;
+  onOpen: (item: WallItem) => void;
 }) {
   const perRow = useTilesPerRow();
   // Pad with empty tiles: at least MIN_ROWS rows, and never a ragged last row,
@@ -54,29 +51,24 @@ export default function Wall({
   // One set of a row's tiles. The marquee renders it three times back to back
   // (two can leave a gap on phones, where a set is narrower than the screen)
   // and slides left by exactly one set, so the loop is seamless. Only the first
-  // copy is exposed to keyboards / screen readers and owns the layoutId.
+  // copy is exposed to keyboards / screen readers.
   function renderSet(row: (WallItem | null)[], copy: boolean) {
     return (
       <div className="flex shrink-0 gap-[var(--tile-gap)] pr-[var(--tile-gap)]" aria-hidden={copy || undefined}>
         {row.map((item, c) =>
           item === null ? (
             <div key={`empty-${c}`} aria-hidden className={`${TILE} rounded-2xl bg-tile`} />
-          ) : !copy && item.key === hiddenKey ? (
-            <div key={item.key} aria-hidden className={TILE} />
           ) : (
-            <motion.button
+            <button
               key={item.key}
               type="button"
-              layoutId={copy ? undefined : `tile-${item.key}`}
               data-tile-key={copy ? undefined : item.key}
               tabIndex={copy ? -1 : undefined}
-              onClick={() => onOpen(item, !copy)}
-              style={{ borderRadius: 16 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className={`${TILE} bg-tile px-4 lg:px-[22px] text-left t-body cursor-pointer transition-colors active:bg-tile-pressed lg:hover:bg-tile-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink`}
+              onClick={() => onOpen(item)}
+              className={`${TILE} rounded-2xl bg-tile px-4 lg:px-[22px] text-left t-body cursor-pointer transition-colors active:bg-tile-pressed lg:hover:bg-tile-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink`}
             >
               <span className="line-clamp-2">{item.question}</span>
-            </motion.button>
+            </button>
           )
         )}
       </div>

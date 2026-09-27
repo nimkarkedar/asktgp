@@ -5,12 +5,9 @@ import { motion } from "framer-motion";
 import Header from "./Header";
 import type { WallItem } from "./types";
 
-const fade = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 },
-  transition: { duration: 0.3, ease: "easeOut" as const },
-};
+// The whole panel fades as one layer (no stacked fades, no shared-element
+// morph), so nothing half-transparent or stretched shows during open/close.
+const EASE = [0.25, 0.1, 0.25, 1] as const;
 
 const noopSubscribe = () => () => {};
 
@@ -19,13 +16,11 @@ const SWIPE_DOWN = 90;
 
 export default function AnswerPanel({
   item,
-  morph,
   onClose,
   onPrev,
   onNext,
 }: {
   item: WallItem;
-  morph: boolean;
   onClose: () => void;
   onPrev: (() => void) | null;
   onNext: (() => void) | null;
@@ -111,39 +106,38 @@ export default function AnswerPanel({
       aria-modal="true"
       aria-label={item.question}
       tabIndex={-1}
-      layoutRoot
-      className="fixed inset-0 z-50 outline-none"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.2, ease: EASE } }}
+      transition={{ duration: 0.25, ease: EASE }}
+      className="fixed inset-0 z-50 bg-bg outline-none"
     >
-      <motion.div {...fade} className="absolute inset-0 bg-bg" />
-
-      <motion.div
+      <div
         ref={scrollRef}
-        layoutScroll
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         className="relative h-full overflow-y-auto overscroll-contain"
       >
-        <motion.div {...fade}>
-          <Header onWordmarkClick={onClose} />
+        <Header onWordmarkClick={onClose} />
+
+        {/* Keyed by item: previous / next swaps the content with a short fade. */}
+        <motion.div
+          key={item.key}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: EASE }}
+          className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-[calc(96px+env(safe-area-inset-bottom))] lg:pb-10"
+        >
+          <div className="rounded-2xl bg-tile px-5 lg:px-6 py-7 lg:py-10">
+            <h1 className="t-heading">{item.question}</h1>
+          </div>
+
+          <div className="px-1 lg:px-4">
+            <PanelBody item={item} />
+          </div>
         </motion.div>
 
-        <div className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-[calc(96px+env(safe-area-inset-bottom))] lg:pb-10">
-          <motion.div
-            layoutId={morph ? `tile-${item.key}` : undefined}
-            style={{ borderRadius: 16 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="bg-tile px-5 lg:px-6 py-7 lg:py-10"
-          >
-            <h1 className="t-heading">{item.question}</h1>
-          </motion.div>
-
-          <motion.div key={item.key} {...fade} transition={{ duration: 0.3, ease: "easeOut", delay: morph ? 0.12 : 0 }} className="px-1 lg:px-4">
-            <PanelBody item={item} />
-          </motion.div>
-        </div>
-
-        <motion.nav
-          {...fade}
+        <nav
           aria-label="Answers"
           className="fixed lg:static bottom-0 inset-x-0 bg-bg/95 backdrop-blur-sm lg:bg-transparent lg:backdrop-blur-none pb-[env(safe-area-inset-bottom)] lg:pb-16"
         >
@@ -152,8 +146,8 @@ export default function AnswerPanel({
             <NavButton onClick={onClose} className="justify-self-center">× Close</NavButton>
             <NavButton onClick={onNext} className="justify-self-end">Next →</NavButton>
           </div>
-        </motion.nav>
-      </motion.div>
+        </nav>
+      </div>
     </motion.div>
   );
 }

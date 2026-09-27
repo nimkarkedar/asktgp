@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, LayoutGroup, MotionConfig } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import Header from "./Header";
 import AskBox from "./AskBox";
 import Wall from "./Wall";
@@ -26,9 +26,10 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
   const [activeKey, setActiveKey] = useState<string | null>(
     () => initialItems.find((i) => i.slug === initialSlug)?.id ?? null
   );
-  // Which open item animates from/to its tile. Null when the panel was
-  // reached some other way (shared link, previous/next).
-  const [morphKey, setMorphKey] = useState<string | null>(null);
+  // True from opening until the close fade has finished; the wall stays
+  // still for that whole time so nothing moves behind the fade.
+  const [panelShown, setPanelShown] = useState(activeKey !== null);
+  const returnFocusKey = useRef<string | null>(null);
   const [asking, setAsking] = useState(false);
   const [hasMore, setHasMore] = useState(initialItems.length >= PAGE_SIZE);
   const loadingMore = useRef(false);
@@ -48,16 +49,18 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
   const navIndex = active ? navigable.findIndex((i) => i.key === active.key) : -1;
 
   const finishClose = useCallback(() => {
-    const key = activeKeyRef.current;
+    returnFocusKey.current = activeKeyRef.current;
     setActiveKey(null);
     // Unanswered new questions don't stay on the wall.
     setItems((prev) => prev.filter((i) => i.state === "answered" || i.state === "pending"));
-    if (key) {
-      requestAnimationFrame(() =>
-        document.querySelector<HTMLElement>(`[data-tile-key="${key}"]`)?.focus({ preventScroll: true })
-      );
-    }
   }, []);
+
+  function onPanelGone() {
+    setPanelShown(false);
+    const key = returnFocusKey.current;
+    returnFocusKey.current = null;
+    if (key) document.querySelector<HTMLElement>(`[data-tile-key="${key}"]`)?.focus({ preventScroll: true });
+  }
 
   // Keep the panel in sync with the URL (back/forward buttons, gestures).
   useEffect(() => {
@@ -66,7 +69,7 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
       const slug = decodeURIComponent(match[1]);
       const item = itemsRef.current.find((i) => i.slug === slug);
       if (item && item.key !== activeKeyRef.current) {
-        setMorphKey(null);
+        setPanelShown(true);
         setActiveKey(item.key);
       }
     } else if (pathname === "/") {
@@ -75,8 +78,8 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
     }
   }, [pathname, finishClose]);
 
-  function open(item: WallItem, morph = true) {
-    setMorphKey(morph ? item.key : null);
+  function open(item: WallItem) {
+    setPanelShown(true);
     setActiveKey(item.key);
     if (item.slug && item.state === "answered") pushUrl(`/q/${item.slug}`);
   }
@@ -95,7 +98,6 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
   function go(offset: number) {
     const target = navigable[navIndex + offset];
     if (!target) return;
-    setMorphKey(null);
     setActiveKey(target.key);
     replaceUrl(`/q/${target.slug}`);
   }
@@ -115,11 +117,8 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
     };
     setAsking(true);
     setItems((prev) => [pending, ...prev]);
-    // Let the new tile render first so the panel can grow out of it.
-    requestAnimationFrame(() => {
-      setMorphKey(key);
-      setActiveKey(key);
-    });
+    setPanelShown(true);
+    setActiveKey(key);
 
     const update = (patch: Partial<WallItem>) =>
       setItems((prev) => prev.map((i) => (i.key === key ? { ...i, ...patch } : i)));
@@ -149,7 +148,6 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
         if (existing) {
           setItems((prev) => prev.filter((i) => i.key !== key));
           if (activeKeyRef.current === key) {
-            setMorphKey(null);
             setActiveKey(existing.key);
             pushUrl(`/q/${slug}`);
           }
@@ -208,31 +206,28 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
 
   return (
     <MotionConfig reducedMotion="user">
-      <LayoutGroup>
         <main className="min-h-dvh">
           <Header />
           <AskBox asking={asking} onAsk={ask} />
           <div className="mt-20 lg:mt-36">
-            <Wall items={items} hiddenKey={active ? morphKey : null} paused={!!active} onOpen={open} />
+            <Wall items={items} paused={panelShown} onOpen={open} />
             {hasMore && <div ref={sentinel} aria-hidden className="h-px" />}
           </div>
         </main>
 
         {/* initial={false}: a shared link arrives with the panel already open,
             fully visible in the server HTML, rather than fading in after JS. */}
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} onExitComplete={onPanelGone}>
           {active && (
             <AnswerPanel
               key="panel"
               item={active}
-              morph={morphKey === active.key}
               onClose={close}
               onPrev={navIndex > 0 ? () => go(-1) : null}
               onNext={navIndex >= 0 && navIndex < navigable.length - 1 ? () => go(1) : null}
             />
           )}
         </AnimatePresence>
-      </LayoutGroup>
     </MotionConfig>
   );
 }
