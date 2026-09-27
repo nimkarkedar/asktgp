@@ -22,7 +22,7 @@ export default function Header() {
         </Link>
         {/* Own full-width row: keeps it on one line on phones and leaves the
             logo column only as wide as the logo, so the logo sits dead centre. */}
-        <p className="col-span-3 mt-3.5 text-center t-small">
+        <p className="col-span-3 mt-[9px] text-center t-small">
           By{" "}
           <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink-muted">
             The Gyaan Project
