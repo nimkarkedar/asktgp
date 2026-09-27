@@ -135,7 +135,7 @@ export default function AnswerPanel({
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="bg-tile px-5 lg:px-6 py-7 lg:py-10"
           >
-            <h1 className="text-[22px] lg:text-[28px] leading-[1.3]">{item.question}</h1>
+            <h1 className="t-heading">{item.question}</h1>
           </motion.div>
 
           <motion.div key={item.key} {...fade} transition={{ duration: 0.3, ease: "easeOut", delay: morph ? 0.12 : 0 }} className="px-1 lg:px-4">
@@ -148,7 +148,7 @@ export default function AnswerPanel({
           aria-label="Answers"
           className="fixed lg:static bottom-0 inset-x-0 bg-bg/95 backdrop-blur-sm lg:bg-transparent lg:backdrop-blur-none pb-[env(safe-area-inset-bottom)] lg:pb-16"
         >
-          <div className="mx-auto grid max-w-[592px] grid-cols-3 px-4 lg:px-8 text-xs lg:text-[13px] uppercase tracking-[0.12em]">
+          <div className="mx-auto grid max-w-[592px] grid-cols-3 px-4 lg:px-8 t-small uppercase tracking-[0.12em]">
             <NavButton onClick={onPrev} className="justify-self-start">← Previous</NavButton>
             <NavButton onClick={onClose} className="justify-self-center">× Close</NavButton>
             <NavButton onClick={onNext} className="justify-self-end">Next →</NavButton>
@@ -181,7 +181,7 @@ function NavButton({
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs lg:text-[13px] leading-[1.4] text-ink-muted">{children}</p>;
+  return <p className="t-small text-ink-muted">{children}</p>;
 }
 
 function PanelBody({ item }: { item: WallItem }) {
@@ -200,7 +200,7 @@ function PanelBody({ item }: { item: WallItem }) {
 
   if (item.state === "error") {
     return (
-      <p className="mt-8 text-base leading-[1.7]" role="alert">
+      <p className="mt-8 t-body" role="alert">
         {item.message ?? "Something went wrong. Please try again."}
       </p>
     );
@@ -216,9 +216,9 @@ function PanelBody({ item }: { item: WallItem }) {
       <>
         <div className="mt-8">
           <Label>Short answer</Label>
-          <p className="mt-2 text-[32px] lg:text-[40px] leading-[1.15]">{short}</p>
+          <p className="mt-2 t-heading">{short}</p>
         </div>
-        <p className="mt-8 max-w-[65ch] text-base lg:text-[17px] leading-[1.7]">{long}</p>
+        <p className="mt-8 max-w-[65ch] t-body">{long}</p>
       </>
     );
   }
@@ -229,12 +229,12 @@ function PanelBody({ item }: { item: WallItem }) {
     <>
       <div className="mt-8">
         <Label>Short answer</Label>
-        <p className="mt-2 text-[32px] lg:text-[40px] leading-[1.15]">{item.short_answer}</p>
+        <p className="mt-2 t-heading">{item.short_answer}</p>
       </div>
 
       <div className="mt-8">
         <Label>Long answer</Label>
-        <div className="mt-2 max-w-[65ch] space-y-4 text-base lg:text-[17px] leading-[1.7]">
+        <div className="mt-2 max-w-[65ch] space-y-4 t-body">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
@@ -242,7 +242,7 @@ function PanelBody({ item }: { item: WallItem }) {
       </div>
 
       {item.sources.length > 0 && (
-        <p className="mt-8 text-sm leading-[1.6]">
+        <p className="mt-8 t-small">
           Reference found in conversations with{" "}
           {item.sources.map((s, i) => (
             <span key={s.guest}>
@@ -253,7 +253,7 @@ function PanelBody({ item }: { item: WallItem }) {
         </p>
       )}
 
-      <p className="mt-2 text-xs lg:text-[13px] leading-[1.4] text-ink-muted">{formatAsked(item.created_at)}</p>
+      <p className="mt-2 t-small text-ink-muted">{formatAsked(item.created_at)}</p>
 
       {item.slug && <ShareRow question={item.question} slug={item.slug} />}
     </>
@@ -295,7 +295,7 @@ function ShareRow({ question, slug }: { question: string; slug: string }) {
   const dot = <span aria-hidden className="text-ink-muted">·</span>;
 
   return (
-    <div className="mt-6 flex flex-wrap items-center gap-x-3 text-sm">
+    <div className="mt-6 flex flex-wrap items-center gap-x-3 t-small">
       {canShare && (
         <>
           <button type="button" onClick={share} className={link}>Share</button>

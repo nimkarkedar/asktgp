@@ -64,7 +64,7 @@ export default function Wall({
                   onClick={() => onOpen(item)}
                   style={{ borderRadius: 16 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="shrink-0 w-[var(--tile-w)] h-[var(--tile-h)] bg-tile px-4 lg:px-[22px] text-left text-[15px] leading-[1.5] cursor-pointer transition-colors active:bg-tile-pressed lg:hover:bg-tile-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                  className="shrink-0 w-[var(--tile-w)] h-[var(--tile-h)] bg-tile px-4 lg:px-[22px] text-left t-body cursor-pointer transition-colors active:bg-tile-pressed lg:hover:bg-tile-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                 >
                   <span className="line-clamp-2">{item.question}</span>
                 </motion.button>

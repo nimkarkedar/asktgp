@@ -66,9 +66,9 @@ export default function Donate() {
     <main className="min-h-dvh">
       <Header />
       <article className="mx-auto max-w-[592px] px-4 pt-12 lg:pt-16 pb-24">
-        <h1 className="text-[22px] lg:text-[28px] leading-[1.3]">Support</h1>
+        <h1 className="t-heading">Support</h1>
 
-        <div className="mt-8 space-y-5 text-base lg:text-[17px] leading-[1.7]">
+        <div className="mt-8 space-y-5 t-body">
           <p>
             <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className={link}>The Gyaan Project</a>{" "}
             and now askTGP is labour of love since 2016. I have made more than 300+ episodes and ongoing TGP SamaChar.
@@ -99,7 +99,7 @@ export default function Donate() {
               height={260}
               className="w-[240px] h-[240px] lg:w-[260px] lg:h-[260px]"
             />
-            <p className="mt-4 text-sm text-ink-muted">Scan to send ₹{amount.toLocaleString("en-IN")}</p>
+            <p className="mt-4 t-small text-ink-muted">Scan to send ₹{amount.toLocaleString("en-IN")}</p>
           </div>
 
           <label className="w-full">
@@ -113,7 +113,7 @@ export default function Donate() {
                 const n = parseInt(e.target.value);
                 setAmount(Number.isFinite(n) && n > 0 ? n : 0);
               }}
-              className="w-full rounded-2xl border border-line px-[18px] py-3 text-base bg-bg focus:outline-none focus:border-ink"
+              className="w-full rounded-2xl border border-line px-[18px] py-3 t-body bg-bg focus:outline-none focus:border-ink"
             />
           </label>
 
@@ -124,7 +124,7 @@ export default function Donate() {
                 type="button"
                 onClick={() => setAmount(p)}
                 aria-pressed={amount === p}
-                className={`min-h-11 px-4 rounded-full border text-sm cursor-pointer transition-colors ${
+                className={`min-h-11 px-4 rounded-full border t-small cursor-pointer transition-colors ${
                   amount === p ? "border-ink bg-ink text-bg" : "border-line hover:border-ink"
                 }`}
               >
@@ -133,7 +133,7 @@ export default function Donate() {
             ))}
           </div>
 
-          <div className="w-full flex flex-col items-center gap-1 text-center text-sm">
+          <div className="w-full flex flex-col items-center gap-1 text-center t-small">
             <p>Send custom amount?</p>
             <button type="button" onClick={copyUpi} className="min-h-11 text-ink-muted hover:text-ink cursor-pointer" aria-live="polite">
               UPI: {UPI_ID} {copied ? "· Copied" : "· Copy"}

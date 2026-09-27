@@ -4,7 +4,7 @@ import "./globals.css";
 
 const baskerville = Libre_Baskerville({
   variable: "--font-baskerville",
-  weight: ["400", "700"],
+  // Variable font (wght 400–700): one file covers regular and semibold.
   style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",

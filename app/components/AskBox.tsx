@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 const MAX = 300;
 const COUNTER_FROM = 250;
-const MAX_HEIGHT = 16 * 1.5 * 5 + 32; // about 5 lines plus padding
+const MAX_HEIGHT = 16 * 1.6 * 5 + 40; // about 5 lines plus padding
 
 export default function AskBox({ asking, onAsk }: { asking: boolean; onAsk: (q: string) => void }) {
   const [value, setValue] = useState("");
@@ -56,10 +56,10 @@ export default function AskBox({ asking, onAsk }: { asking: boolean; onAsk: (q: 
           }}
           onKeyDown={onKeyDown}
           placeholder="Ask any question on design and art"
-          className="block w-full resize-none rounded-2xl border border-line bg-bg px-[18px] pt-4 pb-6 text-base leading-[1.5] placeholder:text-ink focus:border-ink focus:outline-none"
+          className="block w-full resize-none rounded-2xl border border-line bg-bg px-[18px] pt-4 pb-6 t-body placeholder:text-ink focus:border-ink focus:outline-none"
         />
         {value.length >= COUNTER_FROM && (
-          <span aria-live="polite" className="absolute right-4 bottom-2 text-xs text-ink-muted">
+          <span aria-live="polite" className="absolute right-4 bottom-2 t-small text-ink-muted">
             {value.length}/{MAX}
           </span>
         )}
@@ -70,7 +70,7 @@ export default function AskBox({ asking, onAsk }: { asking: boolean; onAsk: (q: 
           type="submit"
           disabled={asking}
           aria-label={asking ? "Finding an answer" : "Submit"}
-          className="h-12 lg:h-10 w-full lg:w-[110px] shrink-0 rounded-full bg-accent text-white text-[15px] font-bold cursor-pointer disabled:cursor-default"
+          className="h-12 lg:h-10 w-full lg:w-[110px] shrink-0 rounded-full bg-accent text-white t-heading cursor-pointer disabled:cursor-default"
         >
           {asking ? (
             <span className="dots" aria-hidden>
@@ -82,7 +82,7 @@ export default function AskBox({ asking, onAsk }: { asking: boolean; onAsk: (q: 
             "Submit"
           )}
         </button>
-        <p className="text-center lg:text-left text-xs lg:text-[13px] leading-[1.4] text-ink-muted">
+        <p className="text-center lg:text-left t-small text-ink-muted">
           Questions are public. Don&apos;t include personal information.
         </p>
       </div>

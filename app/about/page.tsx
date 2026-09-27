@@ -7,8 +7,8 @@ export default function About() {
     <main className="min-h-dvh">
       <Header />
       <article className="mx-auto max-w-[592px] px-4 pt-12 lg:pt-16 pb-24">
-        <h1 className="text-[22px] lg:text-[28px] leading-[1.3]">About</h1>
-        <div className="mt-8 space-y-5 text-base lg:text-[17px] leading-[1.7]">
+        <h1 className="t-heading">About</h1>
+        <div className="mt-8 space-y-5 t-body">
           <p>
             Ask TGP is an AI oracle built on conversations that{" "}
             <a href="https://www.nimkarkedar.com/about" target="_blank" rel="noopener noreferrer" className={link}>
