@@ -218,7 +218,9 @@ export default function AskTGP({ initialItems, initialSlug }: { initialItems: QA
           </div>
         </main>
 
-        <AnimatePresence>
+        {/* initial={false}: a shared link arrives with the panel already open,
+            fully visible in the server HTML, rather than fading in after JS. */}
+        <AnimatePresence initial={false}>
           {active && (
             <AnswerPanel
               key="panel"
