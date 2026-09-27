@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import Link from "next/link";
 
 const MAX = 300;
 const MIN = 8; // shorter than this is rarely a real question
@@ -161,9 +160,9 @@ export default function AskBox({ asking, onAsk }: { asking: boolean; onAsk: (q: 
         </button>
         <p className="text-center lg:text-left t-small text-ink-muted">
           Expect a philosophical answer from{" "}
-          <Link href="/about" className="underline underline-offset-2 hover:text-ink">
+          <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink">
             300+ conversations
-          </Link>
+          </a>
         </p>
       </div>
     </form>
