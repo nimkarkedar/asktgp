@@ -77,7 +77,7 @@ export default function AnswerNav({ prev, next }: { prev: string | null; next: s
   return (
     <nav
       aria-label="Answers"
-      className="fixed lg:static bottom-0 inset-x-0 z-10 bg-bg/95 backdrop-blur-sm lg:bg-transparent lg:backdrop-blur-none pb-[env(safe-area-inset-bottom)] lg:pb-16 lg:pt-6"
+      className="sticky lg:static bottom-0 z-10 bg-bg/95 backdrop-blur-sm lg:bg-transparent lg:backdrop-blur-none pb-[env(safe-area-inset-bottom)] lg:pb-16 lg:pt-6"
     >
       <div className="mx-auto grid max-w-[592px] grid-cols-3 px-4 lg:px-8 t-small uppercase tracking-[0.12em]">
         <NavButton onClick={prev ? () => go(prev) : null} className="justify-self-start">← Previous</NavButton>
@@ -102,7 +102,7 @@ function NavButton({
       type="button"
       onClick={onClick ?? undefined}
       disabled={!onClick}
-      className={`${className} min-h-12 px-1 cursor-pointer hover:opacity-60 disabled:opacity-25 disabled:cursor-default`}
+      className={`${className} min-h-12 px-1 cursor-pointer hover:text-ink-muted disabled:text-ink-muted disabled:cursor-default`}
     >
       {children}
     </button>

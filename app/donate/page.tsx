@@ -23,7 +23,7 @@ function qrSrc(amount: number) {
   )}`;
 }
 
-const link = "underline underline-offset-2 hover:opacity-60";
+const link = "underline underline-offset-2 hover:text-ink-muted";
 
 export default function Donate() {
   const [amount, setAmount] = useState<number>(100);
@@ -63,7 +63,7 @@ export default function Donate() {
   }
 
   return (
-    <main className="min-h-dvh">
+    <main className="flex-1">
       <Header />
       <article className="mx-auto max-w-[592px] px-4 pt-12 lg:pt-16 pb-24">
         <h1 className="t-heading">Support</h1>

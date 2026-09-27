@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Libre_Baskerville } from "next/font/google";
 import "./globals.css";
+import Footer from "./components/Footer";
 
 const baskerville = Libre_Baskerville({
   variable: "--font-baskerville",
@@ -97,7 +98,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/asktgp-favicon.png" />
         <link rel="me" href="https://www.instagram.com/thegyaanprojectpodcast/" />
       </head>
-      <body className={`${baskerville.variable} antialiased`}>{children}</body>
+      <body className={`${baskerville.variable} antialiased flex min-h-dvh flex-col`}>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

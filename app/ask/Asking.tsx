@@ -52,7 +52,7 @@ export default function Asking({ question }: { question: string }) {
 
   return (
     <>
-      <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-[calc(96px+env(safe-area-inset-bottom))] lg:pb-0">
+      <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-4 lg:pb-0">
         <QuestionBox question={question} />
         {outcome.kind === "pending" && (
           <div className="mt-8 px-1 lg:px-4" aria-live="polite">

@@ -79,7 +79,7 @@ export default function AskTGP({ initialItems }: { initialItems: QA[] }) {
   }, [hasMore, loadMore]);
 
   return (
-    <main className="min-h-dvh">
+    <main className="flex-1">
       <Header />
       <AskBox asking={false} onAsk={ask} />
       <div className="mt-20 lg:mt-36">

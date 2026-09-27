@@ -47,9 +47,9 @@ export default async function QuestionPage({ params }: Props) {
   const { prev, next } = await getNeighbours(qa);
 
   return (
-    <main className="min-h-dvh">
+    <main className="flex-1">
       <Header />
-      <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-[calc(96px+env(safe-area-inset-bottom))] lg:pb-0">
+      <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-4 lg:pb-0">
         <QuestionBox question={qa.question} />
         <AnswerBody shortAnswer={qa.short_answer} longAnswer={qa.long_answer} sources={qa.sources} />
         <ShareRow question={qa.question} slug={qa.slug} />

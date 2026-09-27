@@ -4,7 +4,7 @@
 :root {
   --bg: #ffffff;
   --ink: #111111;
-  --ink-muted: #6b6b6b;
+  --ink-muted: #656565; /* lightest text colour allowed anywhere */
   --tile: #d9d9d9;
   --tile-pressed: #cccccc;
   --line: #dddddd;

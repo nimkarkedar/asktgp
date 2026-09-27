@@ -13,7 +13,7 @@ export default async function AskPage({ searchParams }: { searchParams: Promise<
   if (!question) redirect("/");
 
   return (
-    <main className="min-h-dvh">
+    <main className="flex-1">
       <Header />
       <Asking question={question} />
     </main>

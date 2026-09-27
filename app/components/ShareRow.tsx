@@ -36,7 +36,7 @@ export default function ShareRow({ question, slug }: { question: string; slug: s
     }
   }
 
-  const link = "inline-flex items-center min-h-11 underline underline-offset-2 hover:opacity-60 cursor-pointer";
+  const link = "inline-flex items-center min-h-11 underline underline-offset-2 hover:text-ink-muted cursor-pointer";
   const dot = <span aria-hidden className="text-ink-muted">·</span>;
 
   return (

@@ -10,14 +10,14 @@ export default function Header() {
   return (
     <header className="px-4 lg:px-9 pt-[max(16px,env(safe-area-inset-top))] lg:pt-7">
       <div className="grid grid-cols-2 lg:grid-cols-[1fr_auto_1fr] items-start">
-        <Link href="/about" className="justify-self-start t-body inline-flex items-center min-h-11 hover:opacity-60">
+        <Link href="/about" className="justify-self-start t-body inline-flex items-center min-h-11 hover:text-ink-muted">
           About
         </Link>
         <div className="col-span-2 row-start-2 lg:col-span-1 lg:row-start-1 lg:col-start-2 flex flex-col items-center lg:pt-2">
-          <Link href="/" aria-label="asktgp home">{wordmark}</Link>
+          <Link href="/" aria-label="asktgp home" className="hover:opacity-80">{wordmark}</Link>
           <p className="mt-1.5 t-small">
             Powered by{" "}
-            <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60">
+            <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink-muted">
               The Gyaan Project
             </a>{" "}
             Podcast
@@ -25,7 +25,7 @@ export default function Header() {
         </div>
         <Link
           href="/donate"
-          className="justify-self-end col-start-2 row-start-1 lg:col-start-3 t-body inline-flex items-center justify-end min-h-11 hover:opacity-60"
+          className="justify-self-end col-start-2 row-start-1 lg:col-start-3 t-body inline-flex items-center justify-end min-h-11 hover:text-ink-muted"
         >
           Support
         </Link>
