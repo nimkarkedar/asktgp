@@ -79,32 +79,48 @@ export default function AnswerNav({ prev, next }: { prev: string | null; next: s
       aria-label="Answers"
       className="sticky lg:static bottom-0 z-10 bg-bg/95 backdrop-blur-sm lg:bg-transparent lg:backdrop-blur-none pb-[env(safe-area-inset-bottom)] lg:pb-16 lg:pt-6"
     >
-      <div className="mx-auto grid max-w-[592px] grid-cols-3 px-4 lg:px-8 t-small uppercase tracking-[0.12em]">
-        <NavButton onClick={prev ? () => go(prev) : null} className="justify-self-start">← Previous</NavButton>
-        <NavButton onClick={close} className="justify-self-center">× Close</NavButton>
-        <NavButton onClick={next ? () => go(next) : null} className="justify-self-end">Next →</NavButton>
+      <div className="mx-auto flex max-w-[592px] items-center justify-between px-4 py-2 lg:px-4">
+        <NavButton label="Previous answer" onClick={prev ? () => go(prev) : null}>
+          <path d="M19 12H5M11 6l-6 6 6 6" />
+        </NavButton>
+        <NavButton label="Close" onClick={close} primary>
+          <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />
+        </NavButton>
+        <NavButton label="Next answer" onClick={next ? () => go(next) : null}>
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </NavButton>
       </div>
     </nav>
   );
 }
 
+// Round icon buttons, thick rounded strokes. Close is the filled primary.
 function NavButton({
+  label,
   onClick,
-  className,
+  primary = false,
   children,
 }: {
+  label: string;
   onClick: (() => void) | null;
-  className: string;
+  primary?: boolean;
   children: React.ReactNode;
 }) {
+  const look = primary
+    ? "bg-ink text-surface hover:bg-[#2b2b2b]"
+    : "bg-surface text-ink border border-line shadow-[0_1px_2px_rgba(17,17,17,0.05)] hover:border-[#cfcbc3] disabled:text-[#c9c5bd] disabled:shadow-none";
   return (
     <button
       type="button"
+      aria-label={label}
+      title={label}
       onClick={onClick ?? undefined}
       disabled={!onClick}
-      className={`${className} min-h-12 px-1 cursor-pointer hover:text-ink-muted disabled:text-ink-muted disabled:cursor-default`}
+      className={`flex h-12 w-12 items-center justify-center rounded-full cursor-pointer transition-[transform,background-color,border-color] duration-150 ease-out active:scale-95 disabled:cursor-default disabled:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${look}`}
     >
-      {children}
+      <svg aria-hidden width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round">
+        {children}
+      </svg>
     </button>
   );
 }
