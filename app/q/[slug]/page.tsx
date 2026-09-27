@@ -52,7 +52,7 @@ export default async function QuestionPage({ params }: Props) {
       <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-4 lg:pb-0">
         <QuestionBox question={qa.question} />
         <AnswerBody shortAnswer={qa.short_answer} longAnswer={qa.long_answer} />
-        <ShareRow question={qa.question} slug={qa.slug} />
+        <ShareRow title={qa.question} path={`/q/${qa.slug}`} />
       </article>
       <AnswerNav prev={prev} next={next} />
     </main>

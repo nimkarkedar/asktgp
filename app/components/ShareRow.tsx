@@ -33,7 +33,19 @@ function Stroked({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function ShareRow({ question, slug }: { question: string; slug: string }) {
+// Share block for any page: the answer page shares its question, the
+// Support page shares itself.
+export default function ShareRow({
+  title,
+  path,
+  text: message,
+  className = "mt-8",
+}: {
+  title: string;
+  path: string;
+  text?: string;
+  className?: string;
+}) {
   const [copied, setCopied] = useState(false);
 
   // Browser-only facts; the server snapshot keeps hydration consistent.
@@ -44,8 +56,8 @@ export default function ShareRow({ question, slug }: { question: string; slug: s
   );
   const origin = useSyncExternalStore(noopSubscribe, () => window.location.origin, () => "https://asktgp.com");
 
-  const url = `${origin}/q/${slug}`;
-  const text = `${question} — asktgp`;
+  const url = `${origin}${path}`;
+  const text = message ?? `${title} — asktgp`;
 
   async function copy() {
     try {
@@ -59,14 +71,14 @@ export default function ShareRow({ question, slug }: { question: string; slug: s
 
   async function share() {
     try {
-      await navigator.share({ title: question, text, url });
+      await navigator.share({ title, text, url });
     } catch {
       // cancelled
     }
   }
 
   return (
-    <div className="relative mt-8 flex flex-col items-center">
+    <div className={`relative flex flex-col items-center ${className}`}>
       <div className="flex items-center justify-center gap-2">
         {canShare && (
           <button type="button" onClick={share} aria-label="Share" title="Share" className={BUTTON}>

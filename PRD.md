@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.25, a living document
+**Status:** Draft v0.26, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -376,3 +376,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.23 | Share icons back on the page background with a round `--tile` hover; white circles and brand-colour hovers removed. |
 | 27 Sep 2026 | 0.24 | Asking page shows rotating Claude-style working phrases (orange, 16px Bold) under the question instead of "Short answer" + dots and navigation; the full answer page follows. |
 | 27 Sep 2026 | 0.25 | Asking-page loader (✻ and phrase) is black, not orange. |
+| 27 Sep 2026 | 0.26 | Support page: new copy; UPI ID shown as a white card (label, ID in the 24px Title style, payee name, Copy button, "Works with GPay, PhonePe, Paytm or any UPI app"); "Share this page" uses the same share block as the answer page. |

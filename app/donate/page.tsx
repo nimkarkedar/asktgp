@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Header from "../components/Header";
+import ShareRow from "../components/ShareRow";
 
 const UPI_ID = "9886219108@okhdfcbank";
 const PAYEE_NAME = "Kedar Nimkar";
@@ -27,7 +28,7 @@ const link = "underline underline-offset-2 hover:text-ink-muted";
 
 export default function Donate() {
   const [amount, setAmount] = useState<number>(100);
-  const [copied, setCopied] = useState(false);
+  const [upiCopied, setUpiCopied] = useState(false);
 
   async function copyUpi() {
     try {
@@ -35,31 +36,8 @@ export default function Donate() {
     } catch {
       // noop
     }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-
-  async function sharePage() {
-    const shareData = {
-      title: "Support Ask TGP",
-      text: "Help keep The Gyaan Project going.",
-      url: window.location.href,
-    };
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-        return;
-      } catch {
-        // user cancelled
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(shareData.url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // noop
-    }
+    setUpiCopied(true);
+    setTimeout(() => setUpiCopied(false), 2000);
   }
 
   return (
@@ -133,14 +111,50 @@ export default function Donate() {
             ))}
           </div>
 
-          <div className="w-full flex flex-col items-center gap-1 text-center t-small">
-            <p>Send custom amount?</p>
-            <button type="button" onClick={copyUpi} className="min-h-11 text-ink-muted hover:text-ink cursor-pointer" aria-live="polite">
-              UPI: {UPI_ID} {copied ? "· Copied" : "· Copy"}
-            </button>
-            <button type="button" onClick={sharePage} className={`min-h-11 cursor-pointer ${link}`}>
-              Share this page
-            </button>
+          <div className="w-full">
+            <p className="mb-2 text-center t-small text-ink-muted">Send custom amount?</p>
+
+            {/* UPI ID card: who you are paying and a one-tap copy. */}
+            <div className="rounded-2xl border border-line bg-surface p-5 lg:p-6 shadow-[0_1px_2px_rgba(17,17,17,0.04),0_4px_14px_rgba(17,17,17,0.06)]">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="t-small text-ink-muted">UPI ID</p>
+                  <p className="mt-1 t-title break-words">
+                    {UPI_ID.split("@")[0]}@<wbr />
+                    {UPI_ID.split("@")[1]}
+                  </p>
+                  <p className="mt-1 t-small text-ink-muted">
+                    Payee: <span className="text-ink">{PAYEE_NAME}</span>
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={copyUpi}
+                  aria-live="polite"
+                  className="inline-flex h-11 shrink-0 items-center gap-2 self-start rounded-full bg-ink px-5 t-heading text-surface cursor-pointer transition-[transform,background-color] duration-150 hover:bg-[#2b2b2b] active:scale-[0.98] sm:self-center"
+                >
+                  <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                    {upiCopied ? (
+                      <path d="M20 6 9 17l-5-5" />
+                    ) : (
+                      <>
+                        <rect x="9" y="9" width="12" height="12" rx="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </>
+                    )}
+                  </svg>
+                  {upiCopied ? "Copied" : "Copy"}
+                </button>
+              </div>
+              <p className="mt-4 border-t border-line pt-3 t-small text-ink-muted">
+                Works with GPay, PhonePe, Paytm or any UPI app.
+              </p>
+            </div>
+          </div>
+
+          <div className="w-full">
+            <p className="text-center t-small text-ink-muted">Share this page</p>
+            <ShareRow title="Support asktgp" path="/donate" text="Help keep The Gyaan Project going." className="mt-2" />
           </div>
         </div>
       </article>
