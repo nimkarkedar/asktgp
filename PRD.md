@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.28, a living document
+**Status:** Draft v0.29, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -241,7 +241,7 @@ Dark mode is out of scope for v1.
 
 ### 9.4 Homepage layout (`/`)
 **Mobile (base), from top to bottom:**
-1. **Header:** "About" and "Support" as small text links in the top corners. The "asktgp" wordmark is centred below them, with "Powered by <u>The Gyaan Project</u> Podcast" beneath it. The TGP link goes to the podcast.
+1. **Header:** "About" (left), the asktgp logo (centre) and "Support" (right) on one line, vertically centred on each other, at every screen size. "Powered by <u>The Gyaan Project</u> Podcast" sits under the logo. The TGP link goes to the podcast.
 2. **Ask box:** a white rounded card (16px radius) sitting in a light tray (`--tray`, 20px radius, 4px inset), 16px side margin. The tray shows as a strip under the card carrying "Questions are public. Don't include personal information." on the left and the character counter on the right (while focused or filled; `--error` from 280/300); validation messages ("Type a question first.", "Add a little more to your question." under 8 characters) replace the privacy note in `--error`. The card behaves like an iOS text field: soft resting shadow, a slightly darker neutral border and faint grey halo on focus (no colour, no glow), placeholder "Ask any question on design and art" fading out on focus, nothing moving or resizing between states (the strip keeps a fixed height), an iOS-style clear button (grey circle, white ×) once there is text, and Esc to clear. It grows as the visitor types (up to about 5 lines).
 3. **Submit:** a pill button in `--accent` with a soft neutral shadow, full width and at least 48px tall on mobile. Beside it (below it on mobile), in Small `--ink-muted`: "Expect a philosophical answer from <u>300+ conversations</u>"; the link goes to The Gyaan Project website (thegyaanproject.com, new tab), same as the header link.
 4. A generous vertical gap, then the **questions wall**.
@@ -379,3 +379,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.26 | Support page: new copy; UPI ID shown as a white card (label, ID in the 24px Title style, payee name, Copy button, "Works with GPay, PhonePe, Paytm or any UPI app"); "Share this page" uses the same share block as the answer page. |
 | 27 Sep 2026 | 0.27 | UPI card toned down: no shadow, ID in the 16px Heading style, small outlined Copy pill (44px tap area), and Google Pay / PhonePe / Paytm marks (Simple Icons, grey, 28px) in place of the app names. |
 | 27 Sep 2026 | 0.28 | Support page: UPI ID is `9886219108@ybl`. One static QR for that ID (no amount), generated into `public/upi-qr.svg` and verified by decoding; the amount buttons and amount box are removed ("Scan to pay"), and the QR no longer comes from an external service. |
+| 27 Sep 2026 | 0.29 | Mobile header: About, logo and Support on one line (as on desktop), with the Powered by line under the logo. |
