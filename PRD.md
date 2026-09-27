@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.27, a living document
+**Status:** Draft v0.28, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -378,3 +378,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.25 | Asking-page loader (✻ and phrase) is black, not orange. |
 | 27 Sep 2026 | 0.26 | Support page: new copy; UPI ID shown as a white card (label, ID in the 24px Title style, payee name, Copy button, "Works with GPay, PhonePe, Paytm or any UPI app"); "Share this page" uses the same share block as the answer page. |
 | 27 Sep 2026 | 0.27 | UPI card toned down: no shadow, ID in the 16px Heading style, small outlined Copy pill (44px tap area), and Google Pay / PhonePe / Paytm marks (Simple Icons, grey, 28px) in place of the app names. |
+| 27 Sep 2026 | 0.28 | Support page: UPI ID is `9886219108@ybl`. One static QR for that ID (no amount), generated into `public/upi-qr.svg` and verified by decoding; the amount buttons and amount box are removed ("Scan to pay"), and the QR no longer comes from an external service. |

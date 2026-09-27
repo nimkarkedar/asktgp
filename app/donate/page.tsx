@@ -5,30 +5,11 @@ import Header from "../components/Header";
 import ShareRow from "../components/ShareRow";
 import PaymentLogos from "../components/PaymentLogos";
 
-const UPI_ID = "9886219108@okhdfcbank";
+const UPI_ID = "9886219108@ybl";
 const PAYEE_NAME = "Kedar Nimkar";
-const PRESETS = [100, 200, 500, 1000, 2000];
-
-function buildUpiUrl(amount: number) {
-  const params = new URLSearchParams({
-    pa: UPI_ID,
-    pn: PAYEE_NAME,
-    am: String(amount),
-    cu: "INR",
-  });
-  return `upi://pay?${params.toString()}`;
-}
-
-function qrSrc(amount: number) {
-  return `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=16&data=${encodeURIComponent(
-    buildUpiUrl(amount)
-  )}`;
-}
-
 const link = "underline underline-offset-2 hover:text-ink-muted";
 
 export default function Donate() {
-  const [amount, setAmount] = useState<number>(100);
   const [upiCopied, setUpiCopied] = useState(false);
 
   async function copyUpi() {
@@ -68,52 +49,22 @@ export default function Donate() {
         </div>
 
         <div className="mt-12 flex flex-col items-center gap-6">
-          <div className="w-full rounded-2xl border border-line p-6 flex flex-col items-center">
+          {/* Static QR for UPI_ID (no amount: the visitor enters it in their app).
+              Generated once into /public; regenerate if the UPI ID changes. */}
+          <div className="w-full rounded-2xl border border-line bg-surface p-6 flex flex-col items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              key={amount}
-              src={qrSrc(amount)}
-              alt={`Scan to send ₹${amount}`}
+              src="/upi-qr.svg"
+              alt={`UPI QR code to pay ${PAYEE_NAME} (${UPI_ID})`}
               width={260}
               height={260}
               className="w-[240px] h-[240px] lg:w-[260px] lg:h-[260px]"
             />
-            <p className="mt-4 t-small text-ink-muted">Scan to send ₹{amount.toLocaleString("en-IN")}</p>
-          </div>
-
-          <label className="w-full">
-            <span className="sr-only">Amount in rupees</span>
-            <input
-              type="number"
-              inputMode="numeric"
-              min={1}
-              value={amount}
-              onChange={(e) => {
-                const n = parseInt(e.target.value);
-                setAmount(Number.isFinite(n) && n > 0 ? n : 0);
-              }}
-              className="w-full rounded-2xl border border-line px-[18px] py-3 t-body bg-surface focus:outline-none focus:border-ink"
-            />
-          </label>
-
-          <div className="w-full flex flex-wrap gap-2">
-            {PRESETS.map((p) => (
-              <button
-                key={p}
-                type="button"
-                onClick={() => setAmount(p)}
-                aria-pressed={amount === p}
-                className={`min-h-11 px-4 rounded-full border t-small cursor-pointer transition-colors ${
-                  amount === p ? "border-ink bg-ink text-surface" : "border-line hover:border-ink"
-                }`}
-              >
-                ₹{p.toLocaleString("en-IN")}
-              </button>
-            ))}
+            <p className="mt-4 t-small text-ink-muted">Scan to pay</p>
           </div>
 
           <div className="w-full">
-            <p className="mb-2 text-center t-small text-ink-muted">Send custom amount?</p>
+            <p className="mb-2 text-center t-small text-ink-muted">Or pay using the UPI ID</p>
 
             {/* UPI ID card: who you are paying, a one-tap copy, and which apps work. */}
             <div className="rounded-2xl border border-line bg-surface px-4 py-3.5">
