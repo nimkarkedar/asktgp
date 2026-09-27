@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.8, a living document
+**Status:** Draft v0.9, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -62,9 +62,9 @@ Every question and answer is:
 1. Visitor lands on asktgp.com and sees the ask box at the top and a wall of past questions below it (see Section 9).
 2. They type a question and press Submit or Enter.
 3. A new tile appears on the wall and expands into the answer panel.
-4. The **short answer** appears first in large type (e.g. "51% on foot.").
+4. The **short answer** appears first (e.g. "51% on foot.").
 5. The **long answer** streams in below it (150–200 words).
-6. The guest credit line ("Reference found in conversations with *Guest name*") and the date and time asked appear.
+6. The guest credit line ("Reference found in conversations with *Guest name*") appears.
 7. The URL changes to the Q&A's own page (e.g. `asktgp.com/q/how-does-mumbai-travel-k3x9`).
 8. Share buttons appear: copy link, WhatsApp, X, LinkedIn.
 
@@ -215,9 +215,9 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 
 | Style | Size / line height | Weight | Used for |
 |---|---|---|---|
-| Body | 16 / 1.6 | Regular | Long answer, tile text, input text, page copy |
-| Heading | 16 / 1.5 | Semibold (600) | Wordmark (lowercase), question, short answer, page titles, Submit |
-| Small | 12 / 1.4 | Regular | Labels ("Short answer", date), nav, header links, helper text, credit line, share row |
+| Body | 16 / 1.6 | Regular | Short answer, long answer, tile text, input text, page copy |
+| Heading | 16 / 1.5 | Semibold (600) | Wordmark (lowercase), question, "Short answer" / "Long answer" labels, page titles, Submit |
+| Small | 12 / 1.4 | Regular | Nav, header links, helper text, credit line, share row |
 
 - Hierarchy comes from weight, colour (`--ink` vs `--ink-muted`) and spacing, not size. Long answer max width is about 65 characters.
 - The long answer is left-aligned with real paragraph breaks. It should never be justified.
@@ -258,13 +258,12 @@ Tapping a tile **animates it open**. On mobile (base), the tile grows into a **f
 
 **Panel content, in order:**
 1. Header (About / wordmark / Support) stays visible.
-2. **Question** in large type.
-3. Label "Short answer", then the short answer at hero size.
-4. Label "Long answer", then the 150–200 word answer.
+2. **Question** (Heading style).
+3. Label "Short answer" (bold), then the short answer (regular).
+4. Label "Long answer" (bold), then the 150–200 word answer (regular).
 5. **Guest credit line:** "Reference found in conversations with <i>Guest name</i>". Guest names are in italics. When the answer draws on more than one transcript, the names are comma-separated, e.g. "Reference found in conversations with <i>Guest A</i>, <i>Guest B</i>". Plain text only, with no links. The names come from the episode manifest (Section 6.2) for the passages used to write the answer.
-6. **Date and time asked**, e.g. "Asked 27 Sep 2026, 4:12 pm IST".
-7. Share row: Copy link · WhatsApp · X · LinkedIn.
-8. **Navigation:** `← PREVIOUS   × CLOSE   NEXT →` in small caps with letter-spacing, centred at the bottom. Previous and Next move through the wall in its current order without closing the panel.
+6. Share row: Copy link · WhatsApp · X · LinkedIn.
+7. **Navigation:** `← PREVIOUS   × CLOSE   NEXT →` in small caps with letter-spacing, centred at the bottom. Previous and Next move through the wall in its current order without closing the panel.
 
 **Behaviour:**
 - Opening a tile updates the URL to `/q/{slug}` without a full page reload. Closing it returns the URL to `/`.
@@ -277,7 +276,7 @@ Tapping a tile **animates it open**. On mobile (base), the tile grows into a **f
 1. After Submit, the button shows a subtle loading state (for example, three pulsing dots, with no spinner).
 2. A **new tile appears at the top-left of the wall and immediately expands** into the panel.
 3. The short answer appears first; the long answer streams in word by word beneath it.
-4. The date/time and guest credits appear once the long answer has finished.
+4. The guest credits appear once the long answer has finished.
 5. If the question was already answered (semantic cache), the existing Q&A opens instead, with a small note: "Someone asked this before."
 
 ### 9.8 Motion principles
@@ -359,3 +358,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.6 | Submit button colour set to `#FF6900` (Open Question 8 resolved). Helper line beside Submit replaced with "Questions are public. Don't include personal information." Repo renamed from `mondo-wiki` to `asktgp` on GitHub; it is the source of truth for code, this PRD and the mockups (`/design-reference`). The Explore page is retired in favour of the homepage wall; `/explore` redirects to `/`. Empty placeholder tiles fill the wall (at least six rows) so it never looks bare. |
 | 27 Sep 2026 | 0.7 | Type reduced to three styles site-wide: 16 Regular (body), 16 Semibold (headings, incl. wordmark, question and short answer), 12 Regular (small). Libre Baskerville loaded as its variable font. Wall rows now drift slowly right to left. |
 | 27 Sep 2026 | 0.8 | The single source of truth for transcripts is the Drive folder `tgp-transcripts-for-asktgp` (`1TW-EMW-39Ki8nSlgzd-fvUbHJbcdve6U`): clean, labelled files. No other transcript folder is used. |
+| 27 Sep 2026 | 0.9 | Answer panel: "Short answer" / "Long answer" labels are bold (Heading style); both answers are regular (Body). The "Asked {date}, {time} IST" line is removed from the panel (`created_at` is still stored). |

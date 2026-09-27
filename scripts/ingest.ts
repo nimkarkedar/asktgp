@@ -175,19 +175,17 @@ async function main() {
     console.log(`⬇️  Downloading: ${file.name}`);
     const tmpPath = path.join(os.tmpdir(), file.name);
 
-    // Download file
-    const dest = fs.createWriteStream(tmpPath);
-    await drive.files.get(
-      { fileId: file.id, alt: "media" },
-      { responseType: "stream" },
-      (err, res) => {
-        if (err || !res) return;
-        res.data.pipe(dest);
-      }
-    );
-
-    // Wait for download to finish
-    await new Promise<void>((resolve) => dest.on("finish", resolve));
+    // Download file (a failed download is logged and skipped, not hung on)
+    try {
+      const res = await drive.files.get({ fileId: file.id, alt: "media" }, { responseType: "stream" });
+      await new Promise<void>((resolve, reject) => {
+        const dest = fs.createWriteStream(tmpPath);
+        res.data.on("error", reject).pipe(dest).on("finish", resolve).on("error", reject);
+      });
+    } catch (err) {
+      console.error(`   ❌ Download failed for ${file.name}:`, err instanceof Error ? err.message : err);
+      continue;
+    }
 
     // Parse text
     const text = await parseFile(tmpPath, file.mimeType ?? "", file.name);

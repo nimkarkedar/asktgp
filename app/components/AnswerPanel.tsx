@@ -4,7 +4,6 @@ import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } fr
 import { motion } from "framer-motion";
 import Header from "./Header";
 import type { WallItem } from "./types";
-import { formatAsked } from "@/lib/format";
 
 const fade = {
   initial: { opacity: 0 },
@@ -181,7 +180,7 @@ function NavButton({
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <p className="t-small text-ink-muted">{children}</p>;
+  return <p className="t-heading">{children}</p>;
 }
 
 function PanelBody({ item }: { item: WallItem }) {
@@ -216,7 +215,7 @@ function PanelBody({ item }: { item: WallItem }) {
       <>
         <div className="mt-8">
           <Label>Short answer</Label>
-          <p className="mt-2 t-heading">{short}</p>
+          <p className="mt-2 t-body">{short}</p>
         </div>
         <p className="mt-8 max-w-[65ch] t-body">{long}</p>
       </>
@@ -229,7 +228,7 @@ function PanelBody({ item }: { item: WallItem }) {
     <>
       <div className="mt-8">
         <Label>Short answer</Label>
-        <p className="mt-2 t-heading">{item.short_answer}</p>
+        <p className="mt-2 t-body">{item.short_answer}</p>
       </div>
 
       <div className="mt-8">
@@ -252,8 +251,6 @@ function PanelBody({ item }: { item: WallItem }) {
           ))}
         </p>
       )}
-
-      <p className="mt-2 t-small text-ink-muted">{formatAsked(item.created_at)}</p>
 
       {item.slug && <ShareRow question={item.question} slug={item.slug} />}
     </>
