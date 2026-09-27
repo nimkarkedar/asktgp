@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.9, a living document
+**Status:** Draft v0.10, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -215,9 +215,9 @@ Reference mockups are in `/design-reference` (`home.pdf`, `expanded-answer.pdf`)
 
 | Style | Size / line height | Weight | Used for |
 |---|---|---|---|
-| Body | 16 / 1.6 | Regular | Short answer, long answer, tile text, input text, page copy |
-| Heading | 16 / 1.5 | Semibold (600) | Wordmark (lowercase), question, "Short answer" / "Long answer" labels, page titles, Submit |
-| Small | 12 / 1.4 | Regular | Nav, header links, helper text, credit line, share row |
+| Body | 16 / 1.6 | Regular | About / Support links, short answer, long answer, tile text, input text, page copy |
+| Heading | 16 / 1.5 | Semibold (600) | Question, "Short answer" / "Long answer" labels, page titles, Submit |
+| Small | 12 / 1.4 | Regular | Nav, "Powered by" line, helper text, credit line, share row |
 
 - Hierarchy comes from weight, colour (`--ink` vs `--ink-muted`) and spacing, not size. Long answer max width is about 65 characters.
 - The long answer is left-aligned with real paragraph breaks. It should never be justified.
@@ -359,3 +359,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.7 | Type reduced to three styles site-wide: 16 Regular (body), 16 Semibold (headings, incl. wordmark, question and short answer), 12 Regular (small). Libre Baskerville loaded as its variable font. Wall rows now drift slowly right to left. |
 | 27 Sep 2026 | 0.8 | The single source of truth for transcripts is the Drive folder `tgp-transcripts-for-asktgp` (`1TW-EMW-39Ki8nSlgzd-fvUbHJbcdve6U`): clean, labelled files. No other transcript folder is used. |
 | 27 Sep 2026 | 0.9 | Answer panel: "Short answer" / "Long answer" labels are bold (Heading style); both answers are regular (Body). The "Asked {date}, {time} IST" line is removed from the panel (`created_at` is still stored). |
+| 27 Sep 2026 | 0.10 | Header uses the new asktgp logo (SVG) at 33px tall instead of a text wordmark. About and Support links are 16px (Body). |
