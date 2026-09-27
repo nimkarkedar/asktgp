@@ -28,27 +28,7 @@ export default function Donate() {
       <article className="mx-auto max-w-[592px] px-4 pt-12 lg:pt-16 pb-24">
         <h1 className="t-title">Support</h1>
 
-        <div className="mt-8 space-y-5 t-body">
-          <p>
-            <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className={link}>The Gyaan Project</a>{" "}
-            and askTGP is labour of love since 2016. This is a solo effort and my way of giving back to design and art community.
-            <br />
-            All this takes time, effort and money. I would like to keep the project running for a long time and as authentic I can.
-            <br />
-            Thats only possible with generous donations from patrons like you.
-          </p>
-          <p>
-            I will be investing the donated money in buying AI tools, research and improving the production quality of the
-            episodes. Of course, the money will be used to keep these kind of sites up and running.
-          </p>
-          <p>
-            You can donate as per your wish.
-            <br />
-            Thanks in advance.
-          </p>
-        </div>
-
-        <div className="mt-12 flex flex-col items-center gap-6">
+        <div className="mt-8 flex flex-col items-center gap-6">
           {/* Static QR for UPI_ID (no amount: the visitor enters it in their app).
               Generated once into /public; regenerate if the UPI ID changes. */}
           <div className="w-full rounded-2xl border border-line bg-surface p-6 flex flex-col items-center">
@@ -100,11 +80,33 @@ export default function Donate() {
               </p>
             </div>
           </div>
+        </div>
 
-          <div className="w-full">
-            <p className="text-center t-small text-ink-muted">Share this page</p>
-            <ShareRow title="Support asktgp" path="/donate" text="Help keep The Gyaan Project going." className="mt-2" />
-          </div>
+        <div className="mt-12 space-y-5 t-body">
+          <p>
+            <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className={link}>The Gyaan Project</a>{" "}
+            and askTGP is labour of love since 2016. This is a solo effort and my way of giving back to design and art community.
+            <br />
+            All this takes time, effort and money. I would like to keep the project running for a long time and as authentic I can.
+            <br />
+            Thats only possible with generous donations from patrons like you.
+          </p>
+          <p>
+            I will be investing the donated money in buying AI tools, research and improving the production quality of the
+            episodes. Of course, the money will be used to keep these kind of sites up and running.
+          </p>
+          <p>
+            You can donate as per your wish.
+            <br />
+            Thanks in advance.
+          </p>
+        </div>
+
+        <div className="mt-12">
+        <div className="w-full">
+          <p className="text-center t-small text-ink-muted">Share this page</p>
+          <ShareRow title="Support asktgp" path="/donate" text="Help keep The Gyaan Project going." className="mt-2" />
+        </div>
         </div>
       </article>
     </main>
