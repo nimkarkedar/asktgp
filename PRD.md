@@ -108,7 +108,7 @@ Every question and answer is:
 
 ### 6.2 Knowledge base ingestion
 
-- **Source:** one Google Drive folder, `tgp.wiki` (`1TW-EMW-39Ki8nSlgzd-fvUbHJbcdve6U`, owned by thegyaanproject@gmail.com), plus subfolders, of PDF, TXT, and DOCX files. This is the only source of truth for transcripts.
+- **Source:** one Google Drive folder, `tgp-transcripts-for-asktgp` (`1TW-EMW-39Ki8nSlgzd-fvUbHJbcdve6U`, owned by thegyaanproject@gmail.com), plus subfolders, of PDF, TXT, and DOCX files. This is the only source of truth for transcripts.
 - **Episode manifest (important):** a separate Google Sheet, `episodes`, with one row per episode: `episode_id, guest_name(s), drive_file_id(s)`. File names alone are not reliable enough for accurate guest credit. Building this manifest is the first manual task.
 - **Pipeline** (a script run from VS Code; later a scheduled job):
   1. List the files in the Drive folder through the Google Drive API.
@@ -358,4 +358,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.5 | Guest credit set to one line under the answer: "Reference found in conversations with *Guest name*", italic names, comma-separated when several transcripts are used. Episode links removed everywhere; manifest reduced to episode, guest and file. |
 | 27 Sep 2026 | 0.6 | Submit button colour set to `#FF6900` (Open Question 8 resolved). Helper line beside Submit replaced with "Questions are public. Don't include personal information." Repo renamed from `mondo-wiki` to `asktgp` on GitHub; it is the source of truth for code, this PRD and the mockups (`/design-reference`). The Explore page is retired in favour of the homepage wall; `/explore` redirects to `/`. Empty placeholder tiles fill the wall (at least six rows) so it never looks bare. |
 | 27 Sep 2026 | 0.7 | Type reduced to three styles site-wide: 16 Regular (body), 16 Semibold (headings, incl. wordmark, question and short answer), 12 Regular (small). Libre Baskerville loaded as its variable font. Wall rows now drift slowly right to left. |
-| 27 Sep 2026 | 0.8 | The single source of truth for transcripts is the Drive folder `tgp.wiki` (`1TW-EMW-39Ki8nSlgzd-fvUbHJbcdve6U`): clean, labelled files. No other transcript folder is used. |
+| 27 Sep 2026 | 0.8 | The single source of truth for transcripts is the Drive folder `tgp-transcripts-for-asktgp` (`1TW-EMW-39Ki8nSlgzd-fvUbHJbcdve6U`): clean, labelled files. No other transcript folder is used. |
