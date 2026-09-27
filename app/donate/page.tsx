@@ -71,18 +71,18 @@ export default function Donate() {
         <div className="mt-8 space-y-5 t-body">
           <p>
             <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className={link}>The Gyaan Project</a>{" "}
-            and now askTGP is labour of love since 2016. I have made more than 300+ episodes and ongoing TGP SamaChar.
-            This is a solo effort and my way of giving back to design and art community. The Gyaan Project is one of the
-            longest and consistent podcast and youtube channel in India.
-          </p>
-          <p>All this takes time, effort and money. I would like to keep the project running for a long time and as authentic I can.</p>
-          <p>Thats only possible with generous donations from patrons like you.</p>
-          <p>
-            I will be investing the donated money in buying AI tools, research and improving the production quality of
-            the episodes. Of course, the money will be used to keep these kind of sites up and running.
+            and askTGP is labour of love since 2016. This is a solo effort and my way of giving back to design and art community.
+            <br />
+            All this takes time, effort and money. I would like to keep the project running for a long time and as authentic I can.
+            <br />
+            Thats only possible with generous donations from patrons like you.
           </p>
           <p>
-            You can donate from ₹100 all the way to ₹2,000 rupees.
+            I will be investing the donated money in buying AI tools, research and improving the production quality of the
+            episodes. Of course, the money will be used to keep these kind of sites up and running.
+          </p>
+          <p>
+            You can donate as per your wish.
             <br />
             Thanks in advance.
           </p>
