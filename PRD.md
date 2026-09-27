@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.24, a living document
+**Status:** Draft v0.25, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -275,7 +275,7 @@ Tapping a tile opens the answer as **its own page** in the same tab (a normal li
 - Keyboard: `Esc` closes, `←` / `→` move to the previous or next answer. Phones: swipe left or right for next / previous. The phone's back gesture works as normal browser back.
 
 ### 9.7 Asking a new question
-1. Submit opens `/ask?q=…` in the same tab straight away: the question in its box and, below it, a Claude-style working line: a slowly turning orange ✻ and a phrase in `--accent`, 16px Bold, that changes every ~2.2 s (shuffled per visit, 18 phrases such as "Diving deep into the archive…", "Asking oracles…", "Checking with monks…", "Connecting dots…"; list in `app/ask/Thinking.tsx`). No "Short answer" label, share row or navigation until the answer exists. (Orange text is ~2.8:1 on the paper: accepted for this short-lived status line only.)
+1. Submit opens `/ask?q=…` in the same tab straight away: the question in its box and, below it, a Claude-style working line: a slowly turning black ✻ and a phrase in `--ink`, 16px Bold, that changes every ~2.2 s (shuffled per visit, 18 phrases such as "Diving deep into the archive…", "Asking oracles…", "Checking with monks…", "Connecting dots…"; list in `app/ask/Thinking.tsx`). No "Short answer" label, share row or navigation until the answer exists.
 2. When the answer is saved, that page is replaced by the answer's permanent page, `/q/{slug}` (Back still goes to the homepage).
 3. If the archive doesn't cover it, or more context is needed, or something fails, the message shows in place on the asking page.
 4. If the question was already answered moments ago, the existing Q&A opens instead (semantic cache later: "Someone asked this before.").
@@ -375,3 +375,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.22 | Share buttons are 40px white circles with a soft shadow that lifts on hover; brand colours return on hover for WhatsApp and LinkedIn. |
 | 27 Sep 2026 | 0.23 | Share icons back on the page background with a round `--tile` hover; white circles and brand-colour hovers removed. |
 | 27 Sep 2026 | 0.24 | Asking page shows rotating Claude-style working phrases (orange, 16px Bold) under the question instead of "Short answer" + dots and navigation; the full answer page follows. |
+| 27 Sep 2026 | 0.25 | Asking-page loader (✻ and phrase) is black, not orange. |

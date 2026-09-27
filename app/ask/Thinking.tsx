@@ -49,8 +49,8 @@ export default function Thinking() {
 
   return (
     <div className="mt-8 flex items-center gap-3 px-1 lg:px-4" role="status" aria-live="polite">
-      <span aria-hidden className="thinking-glyph text-accent">✻</span>
-      <p key={index} className="thinking-line t-body font-bold text-accent">
+      <span aria-hidden className="thinking-glyph text-ink">✻</span>
+      <p key={index} className="thinking-line t-body font-bold text-ink">
         {order[index]}…
       </p>
     </div>
