@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.12, a living document
+**Status:** Draft v0.13, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -255,35 +255,31 @@ Dark mode is out of scope for v1.
 - Ordering is newest first by default (see Open Question 9).
 - A tap gives an immediate pressed state (slightly darker). On desktop, hover darkens the tile slightly. There is no scale bounce.
 
-### 9.6 Expanded answer view
-Tapping a tile opens the answer as a **full-screen view**, iOS style: the view fades in over about 250 ms while its content rises about 12 px. Closing is a single ~200 ms fade of the whole view, and the wall stays still until the fade has finished. (A shared-element morph from the tile was tried in v0.6–0.11 and dropped: with text inside moving tiles it stretched the text and showed two overlapping boxes.)
+### 9.6 Answer page (`/q/{slug}`)
+Tapping a tile opens the answer as **its own page** in the same tab (a normal link, prefetched as tiles come into view, so it opens instantly on the live site). There is no overlay on top of the homepage. (An expanding overlay was tried in v0.6–0.12 and dropped: switching between the two screens flickered.)
 
-**Panel content, in order:**
+**Page content, in order:**
 1. Header (About / wordmark / Support) stays visible.
 2. **Question** (Heading style).
 3. Label "Short answer" (bold), then the short answer (regular).
 4. Label "Long answer" (bold), then the 150–200 word answer (regular).
 5. **Guest credit line:** "Reference found in conversations with <i>Guest name</i>". Guest names are in italics. When the answer draws on more than one transcript, the names are comma-separated, e.g. "Reference found in conversations with <i>Guest A</i>, <i>Guest B</i>". Plain text only, with no links. The names come from the episode manifest (Section 6.2) for the passages used to write the answer.
 6. Share row: Copy link · WhatsApp · X · LinkedIn.
-7. **Navigation:** `← PREVIOUS   × CLOSE   NEXT →` in small caps with letter-spacing, centred at the bottom. Previous and Next move through the wall in its current order without closing the panel.
+7. **Navigation:** `← PREVIOUS   × CLOSE   NEXT →` in small caps with letter-spacing, centred at the bottom. Previous (newer) and Next (older) move through answers in wall order and replace the current history entry, so Back still returns to where the visitor came from. Neighbouring answers are prefetched. **Close** goes back to the homepage at the same scroll position when the visitor came from it; otherwise (e.g. a shared link) it opens the homepage at the top.
 
 **Behaviour:**
-- Opening a tile updates the URL to `/q/{slug}` without a full page reload. Closing it returns the URL to `/`.
-- Visiting `/q/{slug}` directly (a shared link) loads the homepage with that panel already open, rendered on the server for SEO and social previews.
-- **Mobile (base):** the navigation bar (`← PREVIOUS × CLOSE NEXT →`) sticks to the bottom of the screen, above the safe area. Swipe left or right moves to the next or previous answer. Swipe down from the top closes the sheet. The phone's back button or back gesture also closes the sheet, because the URL was pushed to the browser history. Share uses the phone's native share sheet (`navigator.share`), falling back to the individual buttons.
-- **Desktop (`lg`):** `Esc` closes the panel, and `←` / `→` move to the previous or next answer.
-- Focus is trapped inside the open panel, and the page behind it doesn't scroll.
+- Visiting `/q/{slug}` directly (a shared link) renders the page on the server for SEO and social previews.
+- Keyboard: `Esc` closes, `←` / `→` move to the previous or next answer. Phones: swipe left or right for next / previous. The phone's back gesture works as normal browser back.
 
 ### 9.7 Asking a new question
-1. After Submit, the button shows a subtle loading state (for example, three pulsing dots, with no spinner).
-2. A **new tile appears at the top-left of the wall and immediately expands** into the panel.
-3. The short answer appears first; the long answer streams in word by word beneath it.
-4. The guest credits appear once the long answer has finished.
-5. If the question was already answered (semantic cache), the existing Q&A opens instead, with a small note: "Someone asked this before."
+1. Submit opens `/ask?q=…` in the same tab straight away: the question in its grey box, and under "Short answer" three pulsing dots.
+2. When the answer is saved, that page is replaced by the answer's permanent page, `/q/{slug}` (Back still goes to the homepage).
+3. If the archive doesn't cover it, or more context is needed, or something fails, the message shows in place on the asking page.
+4. If the question was already answered moments ago, the existing Q&A opens instead (semantic cache later: "Someone asked this before.").
 
 ### 9.8 Motion principles
 - 250–350 ms, ease-out. Motion should feel calm and deliberate, never bouncy.
-- Respect `prefers-reduced-motion`: no drifting wall; panel transitions stay as plain fades.
+- Respect `prefers-reduced-motion`: no drifting wall.
 
 ### 9.9 Voice of the copy
 - Lowercase wordmark, sentence case everywhere else.
@@ -364,3 +360,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.10 | Header uses the new asktgp logo (SVG) at 33px tall instead of a text wordmark. About and Support links are 16px (Body). |
 | 27 Sep 2026 | 0.11 | Ask box restyled as an iOS-style field: static placeholder that fades on focus (no floating label, no movement), neutral focus state with no coloured glow, iOS clear button, validation and counter under the field. `--error` token added. Submit has no glow; subtle press instead. |
 | 27 Sep 2026 | 0.12 | Answer view opens and closes with a single-layer fade (content rises slightly on open) instead of a shared-element morph from the tile, which stretched text and flickered on close. The wall stays paused until the close fade finishes. |
+| 27 Sep 2026 | 0.13 | Answers open as their own page (`/q/{slug}`, same tab) instead of an overlay, which flickered when switching screens. New questions go to `/ask?q=…`, which hands over to `/q/{slug}`. Close returns to the homepage scroll position when the visitor came from it. |

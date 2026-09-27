@@ -75,8 +75,8 @@ body {
   }
 }
 
-/* Wall rows drift right to left. Paused while an answer is open, on hover
-   (desktop, so tiles are easy to click), and off for reduced motion. */
+/* Wall rows drift right to left. Paused on hover (desktop, so tiles are easy
+   to click), and off for reduced motion. */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(calc(-100% / 3)); }
@@ -86,9 +86,6 @@ body {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
-}
-.wall[data-paused] .marquee {
-  animation-play-state: paused;
 }
 @media (hover: hover) {
   .marquee-row:hover .marquee {

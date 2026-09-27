@@ -1,4 +1,5 @@
 import { randomBytes } from "crypto";
+import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 // Server-only access to saved Q&As (qa_history). Rows without a slug or with
@@ -53,7 +54,25 @@ export async function listQAs({ before, limit = 30 }: { before?: string; limit?:
   return (data ?? []) as QA[];
 }
 
-export async function getQABySlug(slug: string): Promise<QA | null> {
+// Neighbours in wall order (newest first): `prev` is the next newer Q&A,
+// `next` the next older one.
+export async function getNeighbours(qa: QA): Promise<{ prev: string | null; next: string | null }> {
+  const base = () =>
+    supabase
+      .from("qa_history")
+      .select("slug")
+      .not("slug", "is", null)
+      .neq("short_answer", OUT_OF_SYLLABUS_MARKER)
+      .limit(1);
+  const [newer, older] = await Promise.all([
+    base().gt("created_at", qa.created_at).order("created_at", { ascending: true }),
+    base().lt("created_at", qa.created_at).order("created_at", { ascending: false }),
+  ]);
+  return { prev: newer.data?.[0]?.slug ?? null, next: older.data?.[0]?.slug ?? null };
+}
+
+// cache(): generateMetadata and the page share one lookup per request.
+export const getQABySlug = cache(async (slug: string): Promise<QA | null> => {
   const { data, error } = await supabase
     .from("qa_history")
     .select(COLUMNS)
@@ -65,4 +84,4 @@ export async function getQABySlug(slug: string): Promise<QA | null> {
     return null;
   }
   return data as QA | null;
-}
+});

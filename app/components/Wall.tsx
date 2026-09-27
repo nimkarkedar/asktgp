@@ -1,7 +1,8 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import type { WallItem } from "./types";
+import Link from "next/link";
+import type { QA } from "@/lib/qa";
 
 const MIN_ROWS = 6;
 
@@ -31,19 +32,17 @@ const TILE = "shrink-0 w-[var(--tile-w)] h-[var(--tile-h)]";
 
 export default function Wall({
   items,
-  paused,
   onOpen,
 }: {
-  items: WallItem[];
-  paused: boolean;
-  onOpen: (item: WallItem) => void;
+  items: QA[];
+  onOpen: () => void;
 }) {
   const perRow = useTilesPerRow();
   // Pad with empty tiles: at least MIN_ROWS rows, and never a ragged last row,
   // so the wall reads as a wall even before many questions exist.
   const total = Math.max(MIN_ROWS * perRow, Math.ceil(items.length / perRow) * perRow);
-  const cells: (WallItem | null)[] = [...items, ...Array<null>(total - items.length).fill(null)];
-  const rows: (WallItem | null)[][] = [];
+  const cells: (QA | null)[] = [...items, ...Array<null>(total - items.length).fill(null)];
+  const rows: (QA | null)[][] = [];
   for (let i = 0; i < cells.length; i += perRow) rows.push(cells.slice(i, i + perRow));
 
   const duration = perRow * SECONDS_PER_TILE;
@@ -52,23 +51,25 @@ export default function Wall({
   // (two can leave a gap on phones, where a set is narrower than the screen)
   // and slides left by exactly one set, so the loop is seamless. Only the first
   // copy is exposed to keyboards / screen readers.
-  function renderSet(row: (WallItem | null)[], copy: boolean) {
+  function renderSet(row: (QA | null)[], copy: boolean) {
     return (
       <div className="flex shrink-0 gap-[var(--tile-gap)] pr-[var(--tile-gap)]" aria-hidden={copy || undefined}>
         {row.map((item, c) =>
           item === null ? (
             <div key={`empty-${c}`} aria-hidden className={`${TILE} rounded-2xl bg-tile`} />
           ) : (
-            <button
-              key={item.key}
-              type="button"
-              data-tile-key={copy ? undefined : item.key}
+            <Link
+              key={item.id}
+              href={`/q/${item.slug}`}
+              // Only the first copy prefetches; the others point at the same page.
+              prefetch={copy ? false : undefined}
+              data-tile-key={copy ? undefined : item.id}
               tabIndex={copy ? -1 : undefined}
-              onClick={() => onOpen(item)}
-              className={`${TILE} rounded-2xl bg-tile px-4 lg:px-[22px] text-left t-body cursor-pointer transition-colors active:bg-tile-pressed lg:hover:bg-tile-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink`}
+              onClick={onOpen}
+              className={`${TILE} flex items-center rounded-2xl bg-tile px-4 lg:px-[22px] text-left t-body cursor-pointer transition-colors active:bg-tile-pressed lg:hover:bg-tile-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink`}
             >
               <span className="line-clamp-2">{item.question}</span>
-            </button>
+            </Link>
           )
         )}
       </div>
@@ -78,7 +79,6 @@ export default function Wall({
   return (
     <section
       aria-label="Questions asked by others"
-      data-paused={paused || undefined}
       className="wall w-full overflow-hidden pb-16"
     >
       <div className="flex flex-col gap-[var(--tile-gap)] lg:gap-7">

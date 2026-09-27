@@ -143,7 +143,7 @@ function levenshtein(a: string, b: string): number {
   if (!b.length) return a.length;
   const prev = new Array(b.length + 1).fill(0).map((_, i) => i);
   for (let i = 1; i <= a.length; i++) {
-    let cur = [i, ...new Array(b.length).fill(0)];
+    const cur = [i, ...new Array(b.length).fill(0)];
     for (let j = 1; j <= b.length; j++) {
       cur[j] = a[i - 1] === b[j - 1]
         ? prev[j - 1]

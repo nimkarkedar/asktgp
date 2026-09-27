@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import AskTGP from "../../components/AskTGP";
-import { getQABySlug, listQAs } from "@/lib/qa";
+import Header from "../../components/Header";
+import AnswerNav from "../../components/AnswerNav";
+import ShareRow from "../../components/ShareRow";
+import { AnswerBody, QuestionBox } from "../../components/AnswerBody";
+import { getNeighbours, getQABySlug } from "@/lib/qa";
 
-// A shared link: the homepage with this Q&A already open, served from
-// storage (no new AI call).
+// One Q&A on its own page, served from storage (no new AI call).
 export const revalidate = 60;
 
 type Props = { params: Promise<{ slug: string }> };
@@ -40,9 +42,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function QuestionPage({ params }: Props) {
   const { slug } = await params;
-  const [qa, items] = await Promise.all([getQABySlug(slug), listQAs()]);
+  const qa = await getQABySlug(slug);
   if (!qa) notFound();
+  const { prev, next } = await getNeighbours(qa);
 
-  const list = items.some((i) => i.id === qa.id) ? items : [qa, ...items];
-  return <AskTGP initialItems={list} initialSlug={qa.slug} />;
+  return (
+    <main className="min-h-dvh">
+      <Header />
+      <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-[calc(96px+env(safe-area-inset-bottom))] lg:pb-0">
+        <QuestionBox question={qa.question} />
+        <AnswerBody shortAnswer={qa.short_answer} longAnswer={qa.long_answer} sources={qa.sources} />
+        <ShareRow question={qa.question} slug={qa.slug} />
+      </article>
+      <AnswerNav prev={prev} next={next} />
+    </main>
+  );
 }
