@@ -15,7 +15,7 @@ export default function Header() {
         </Link>
         <div className="col-span-2 row-start-2 lg:col-span-1 lg:row-start-1 lg:col-start-2 flex flex-col items-center lg:pt-2">
           <Link href="/" aria-label="asktgp home" className="hover:opacity-80">{wordmark}</Link>
-          <p className="mt-1.5 t-small">
+          <p className="mt-3.5 t-small">
             Powered by{" "}
             <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink-muted">
               The Gyaan Project
