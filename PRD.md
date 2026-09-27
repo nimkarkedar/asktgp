@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.20, a living document
+**Status:** Draft v0.21, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -267,7 +267,7 @@ Tapping a tile opens the answer as **its own page** in the same tab (a normal li
 3. Label "Short answer" (bold), then the short answer (regular).
 4. Label "Long answer" (bold), then the 150–200 word answer (regular).
 5. *(No guest credit line is shown, v0.18. Sources are still stored with each Q&A.)*
-6. **Share row**, centred in the column: icon buttons for Copy link, WhatsApp, X and LinkedIn (plus the phone's native Share first, on touch devices). Icons are black at rest and take their brand colour on hover (WhatsApp `#25D366`, LinkedIn `#0A66C2`, X black). Copy shows a ✓ and "Link copied" briefly.
+6. **Share row**, centred in the column: icon buttons for Copy link, WhatsApp, X and LinkedIn (plus the phone's native Share first, on touch devices). Icons are always black; on hover every button shows the same round `--tile` background (no brand colours). Copy shows a ✓ and "Link copied" briefly.
 7. **Navigation:** three round 48px icon buttons with thick rounded strokes and no text labels (accessible names "Previous answer", "Close", "Next answer"): ← arrow and → arrow on white circles with a thin border, and × on a filled black circle as the primary action. Previous (newer) and Next (older) move through answers in wall order and replace the current history entry, so Back still returns to where the visitor came from. Neighbouring answers are prefetched. **Close** goes back to the homepage at the same scroll position when the visitor came from it; otherwise (e.g. a shared link) it opens the homepage at the top.
 
 **Behaviour:**
@@ -371,3 +371,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.18 | Guest credit line ("Reference found in conversations with …") removed from the answer page. Sources are still stored per Q&A. |
 | 27 Sep 2026 | 0.19 | Answer page navigation is three round icon buttons (← × →) with no text labels; Close is filled black. |
 | 27 Sep 2026 | 0.20 | Share options are centred icon buttons, black at rest, brand colour on hover. |
+| 27 Sep 2026 | 0.21 | Share icons: brand-colour hovers removed; all show the same round `--tile` background on hover. |
