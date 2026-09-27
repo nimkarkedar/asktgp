@@ -1,12 +1,21 @@
-import type { Metadata } from "next";
-import { Lora } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Libre_Baskerville } from "next/font/google";
 import "./globals.css";
 
-const lora = Lora({
-  variable: "--font-lora",
+const baskerville = Libre_Baskerville({
+  variable: "--font-baskerville",
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
+};
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://asktgp.com";
 const TITLE = "askTGP — Powered by The Gyaan Project";
@@ -88,7 +97,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/asktgp-favicon.png" />
         <link rel="me" href="https://www.instagram.com/thegyaanprojectpodcast/" />
       </head>
-      <body className={`${lora.variable} antialiased`}>{children}</body>
+      <body className={`${baskerville.variable} antialiased`}>{children}</body>
     </html>
   );
 }

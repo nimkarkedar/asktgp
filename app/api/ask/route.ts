@@ -4,6 +4,10 @@ import { NextRequest, NextResponse, after } from "next/server";
 import { google } from "googleapis";
 import fs from "fs";
 import path from "path";
+import { checkRateLimit } from "@/lib/rateLimit";
+import { makeSlug } from "@/lib/qa";
+
+const MAX_QUESTION_LENGTH = 300;
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -491,6 +495,12 @@ export async function POST(req: NextRequest) {
     if (!question || typeof question !== "string" || question.trim() === "") {
       return NextResponse.json({ error: "Question is required." }, { status: 400 });
     }
+    if (question.trim().length > MAX_QUESTION_LENGTH) {
+      return NextResponse.json(
+        { error: `Please keep your question under ${MAX_QUESTION_LENGTH} characters.` },
+        { status: 400 }
+      );
+    }
 
     // Handle meta questions about Ask TGP directly, without hitting the AI
     const metaPatterns = /what\s+is\s+(this|ask\s+tgp|the\s+gyaan\s+project|tgp)|how\s+does\s+this\s+work|who\s+(made|created|built)\s+this|what\s+can\s+(i|you)\s+(ask|do)/i;
@@ -500,6 +510,11 @@ export async function POST(req: NextRequest) {
         long: "Ask TGP is an AI oracle built on The Gyaan Project — a podcast by Kedar Nimkar featuring 300+ conversations with India's finest designers, artists, architects, musicians, and creative thinkers.\n\nAsk it anything about design, art, or creative practice. It draws from those conversations to give you a short answer and a long answer — distilled wisdom, not a search result.\n\nThink of it as sitting across from someone who has spent years listening carefully to brilliant people, and is now quietly passing on what they heard.",
         references: [],
       });
+    }
+
+    const limit = await checkRateLimit(supabase, req, "ask");
+    if (!limit.ok) {
+      return NextResponse.json({ error: limit.reason }, { status: 429 });
     }
 
     const hasDesignContext = /design|art|artist|architect|creative|creativity|craft|typography|type\b|illustration|illustrat|photograph|film|cinema|music|theatre|dance|paint|sculpt|brand|logo|identity|ux|ui|product|studio|maker|making|aesthetic|culture|cultural|writer|writing|poet|theatre|performance|summaris|summariz|episode|gyaan|tgp|material|space|craft|process|practice|inspiration|muse|voice|style|taste|vision|critique|feedback|client|brief|career|portfolio/i.test(question);
@@ -622,12 +637,18 @@ export async function POST(req: NextRequest) {
     // Save to qa_history — skip only if an identical *answered* question exists
     // in the last 2 minutes. Sentinel (out-of-syllabus) rows must NOT block a
     // later real answer from being stored.
-    let historyId: string | null = null;
+    const sources = [...new Set(
+      (parsed.references as { name?: string }[])
+        .map((r) => r?.name?.trim())
+        .filter((n): n is string => !!n)
+    )].map((guest) => ({ guest }));
+
+    let saved: { id: string; slug: string | null; created_at: string } | null = null;
     try {
       const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000).toISOString();
       const { data: dupeRows, error: dupeErr } = await supabase
         .from("qa_history")
-        .select("id, short_answer")
+        .select("id, slug, created_at")
         .eq("question", question.trim())
         .neq("short_answer", OUT_OF_SYLLABUS_MARKER)
         .gte("created_at", twoMinutesAgo)
@@ -644,13 +665,15 @@ export async function POST(req: NextRequest) {
             question: question.trim(),
             short_answer: parsed.short,
             long_answer: parsed.long,
+            slug: makeSlug(question.trim()),
+            sources,
           })
-          .select("id")
+          .select("id, slug, created_at")
           .single();
         if (insertErr) console.error("qa_history insert error:", insertErr.message);
-        historyId = historyRow?.id ?? null;
+        saved = historyRow ?? null;
       } else {
-        historyId = dupe.id;
+        saved = dupe;
       }
     } catch (err) {
       console.error("qa_history save exception:", err);
@@ -669,7 +692,13 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    return NextResponse.json({ ...parsed, id: historyId });
+    return NextResponse.json({
+      ...parsed,
+      id: saved?.id ?? null,
+      slug: saved?.slug ?? null,
+      created_at: saved?.created_at ?? new Date().toISOString(),
+      sources,
+    });
   } catch (error) {
     console.error("API error:", error);
     return NextResponse.json({ error: "Something went wrong." }, { status: 500 });

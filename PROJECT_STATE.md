@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-04-19
 **Live:** https://asktgp.vercel.app (custom domain asktgp.com pending DNS setup)
-**Repo:** github.com/nimkarkedar/mondo-wiki
+**Repo:** github.com/nimkarkedar/asktgp (renamed from mondo-wiki, 27 Sep 2026)
 
 ---
 

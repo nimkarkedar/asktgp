@@ -1,79 +1,76 @@
 @import "tailwindcss";
 
+/* Design tokens — PRD §9.3. Dark mode is out of scope for v1. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #ffffff;
+  --ink: #111111;
+  --ink-muted: #6b6b6b;
+  --tile: #d9d9d9;
+  --tile-pressed: #cccccc;
+  --line: #dddddd;
+  --accent: #ff6900;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-lora), Georgia, serif;
-  --text-base: 18px;
-  --text-base--line-height: 1.55;
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-tile: var(--tile);
+  --color-tile-pressed: var(--tile-pressed);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --font-serif: var(--font-baskerville), Georgia, serif;
 }
 
 html {
-  font-size: 18px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: #f5f2ee;
-  color: var(--foreground);
-  font-family: var(--font-lora), Georgia, serif;
-  font-size: 18px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-baskerville), Georgia, serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ── Orange pane background animation ── */
-@keyframes orangeFlow {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Questions wall: tile width drives both the grid and the half-tile row offset. */
+.wall {
+  --tile-gap: 12px;
+  --tile-w: calc((100vw - 32px - var(--tile-gap)) / 2);
+  --tile-h: 96px;
 }
-
-/* ── Answer reveal animation ── */
-@keyframes answerReveal {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Toast: slide up, hold, fade out over 5 s ── */
-@keyframes toastShow {
-  0%   { opacity: 0; transform: translateY(10px); }
-  8%   { opacity: 1; transform: translateY(0);    }
-  78%  { opacity: 1; transform: translateY(0);    }
-  100% { opacity: 0; transform: translateY(4px);  }
-}
-
-/* ── Explore card border pulse ── */
-@keyframes borderPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 105, 0, 0);
-    border-color: rgb(156, 163, 175);
+@media (min-width: 640px) {
+  .wall {
+    --tile-gap: 20px;
+    --tile-w: 240px;
+    --tile-h: 104px;
   }
-  50% {
-    box-shadow: 0 0 20px 4px rgba(255, 105, 0, 0.14);
-    border-color: rgba(255, 105, 0, 0.65);
+}
+@media (min-width: 1024px) {
+  .wall {
+    --tile-gap: 36px;
+    --tile-w: 265px;
+    --tile-h: 110px;
   }
 }
 
-.explore-card {
-  animation: borderPulse 3s ease-in-out infinite;
+/* Three pulsing dots (submit loading state, pending answer) */
+@keyframes dot-pulse {
+  0%, 80%, 100% { opacity: 0.25; }
+  40% { opacity: 1; }
 }
-
-.explore-card:hover {
-  animation-play-state: paused;
-  border-color: rgb(255, 105, 0) !important;
-  box-shadow: 0 0 22px 5px rgba(255, 105, 0, 0.18);
-}
-
-/* ── Typewriter cursor blink ── */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-.cursor {
+.dots span {
   display: inline-block;
-  animation: blink 0.8s ease infinite;
+  width: 6px;
+  height: 6px;
+  margin: 0 3px;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: dot-pulse 1.2s ease-out infinite;
+}
+.dots span:nth-child(2) { animation-delay: 0.15s; }
+.dots span:nth-child(3) { animation-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dots span { animation: none; opacity: 0.6; }
 }

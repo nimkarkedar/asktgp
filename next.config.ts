@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    // The questions wall on the homepage replaces the Explore page (PRD §5.4).
+    return [{ source: "/explore", destination: "/", permanent: true }];
+  },
 };
 
 export default nextConfig;
