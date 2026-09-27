@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 // PRD §9.4: About, logo, Support on one line at every size, with the
-// "Powered by" line centred on its own row below. Links are 44px tall and the logo is
+// "By The Gyaan Project" line centred on its own row below. Links are 44px tall and the logo is
 // nudged down 4px so both share the same centre line.
 export default function Header() {
   // Logo is 83×29; shown at 36px tall.
@@ -23,11 +23,10 @@ export default function Header() {
         {/* Own full-width row: keeps it on one line on phones and leaves the
             logo column only as wide as the logo, so the logo sits dead centre. */}
         <p className="col-span-3 mt-3.5 text-center t-small">
-          Powered by{" "}
+          By{" "}
           <a href="https://thegyaanproject.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink-muted">
             The Gyaan Project
-          </a>{" "}
-          Podcast
+          </a>
         </p>
       </div>
     </header>
