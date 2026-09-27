@@ -144,7 +144,7 @@ export default function Donate() {
                   {upiCopied ? "Copied" : "Copy"}
                 </button>
               </div>
-              <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-line pt-3 t-small text-ink-muted">
+              <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-3 t-small text-ink-muted">
                 Works with <PaymentLogos /> or any UPI app
               </p>
             </div>

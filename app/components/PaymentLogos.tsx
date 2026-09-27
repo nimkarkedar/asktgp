@@ -9,9 +9,9 @@ const LOGOS = [
 
 export default function PaymentLogos() {
   return (
-    <span className="inline-flex items-center gap-2.5">
+    <span className="inline-flex items-center gap-3.5">
       {LOGOS.map((l) => (
-        <svg key={l.name} role="img" aria-label={l.name} width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <svg key={l.name} role="img" aria-label={l.name} width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
           <title>{l.name}</title>
           <path d={l.d} />
         </svg>

@@ -377,4 +377,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.24 | Asking page shows rotating Claude-style working phrases (orange, 16px Bold) under the question instead of "Short answer" + dots and navigation; the full answer page follows. |
 | 27 Sep 2026 | 0.25 | Asking-page loader (✻ and phrase) is black, not orange. |
 | 27 Sep 2026 | 0.26 | Support page: new copy; UPI ID shown as a white card (label, ID in the 24px Title style, payee name, Copy button, "Works with GPay, PhonePe, Paytm or any UPI app"); "Share this page" uses the same share block as the answer page. |
-| 27 Sep 2026 | 0.27 | UPI card toned down: no shadow, ID in the 16px Heading style, small outlined Copy pill (44px tap area), and Google Pay / PhonePe / Paytm marks (Simple Icons, grey) in place of the app names. |
+| 27 Sep 2026 | 0.27 | UPI card toned down: no shadow, ID in the 16px Heading style, small outlined Copy pill (44px tap area), and Google Pay / PhonePe / Paytm marks (Simple Icons, grey, 28px) in place of the app names. |
