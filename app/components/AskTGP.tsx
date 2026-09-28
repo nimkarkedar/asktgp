@@ -82,7 +82,7 @@ export default function AskTGP({ initialItems }: { initialItems: QA[] }) {
     <main className="flex-1">
       <Header />
       <AskBox asking={false} onAsk={ask} />
-      <div className="mt-20 lg:mt-36">
+      <div className="mt-24 lg:mt-[216px]">
         <Wall items={items} onOpen={markFromHome} />
         {hasMore && <div ref={sentinel} aria-hidden className="h-px" />}
       </div>
