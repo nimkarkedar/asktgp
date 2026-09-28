@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-// Between the answer and the share row on /q/{slug}: a gentle ask to support
+// After the share row on /q/{slug}: a gentle ask to support
 // the project. Uses the accent (the Submit colour) as the page's one call to action.
 export default function SupportCallout() {
   return (

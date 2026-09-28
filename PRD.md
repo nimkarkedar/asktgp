@@ -267,8 +267,8 @@ Tapping a tile opens the answer as **its own page** in the same tab (a normal li
 3. Label "Short answer" (bold), then the short answer (regular).
 4. Label "Long answer" (bold), then the 150–200 word answer (regular).
 5. *(No guest credit line is shown, v0.18. Sources are still stored with each Q&A.)*
-5a. **Support callout** between the answer and the share row: a white card (thin border) with "Found this helpful?" (Heading), a one-line note in Small, and an accent pill button "Support the project →" linking to `/donate`. Stacks on phones with a full-width button.
 6. **Share row**, centred in the column: icon buttons for Copy link, WhatsApp, X and LinkedIn (plus the phone's native Share first, on touch devices). Icons sit directly on the page background (no circle, border or shadow) and are always black; on hover every button shows the same round `--tile` background. No brand colours. Copy shows a ✓ and "Link copied" briefly.
+6a. **Support callout** after the share row: a white card (thin border) with "Found this helpful?" (Heading), a one-line note in Small, and an accent pill button "Support the project →" linking to `/donate`. Stacks on phones with a full-width button.
 7. **Navigation:** three round 48px icon buttons with thick rounded strokes and no text labels (accessible names "Previous answer", "Close", "Next answer"): ← arrow and → arrow on white circles with a thin border, and × on a filled black circle as the primary action. Previous (newer) and Next (older) move through answers in wall order and replace the current history entry, so Back still returns to where the visitor came from. Neighbouring answers are prefetched. **Close** goes back to the homepage at the same scroll position when the visitor came from it; otherwise (e.g. a shared link) it opens the homepage at the top.
 
 **Behaviour:**
@@ -382,4 +382,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.28 | Support page: UPI ID is `9886219108@ybl`. One static QR for that ID (no amount), generated into `public/upi-qr.svg` and verified by decoding; the amount buttons and amount box are removed ("Scan to pay"), and the QR no longer comes from an external service. |
 | 27 Sep 2026 | 0.29 | Mobile header: About, logo and Support on one line (as on desktop), with the Powered by line under the logo. |
 | 27 Sep 2026 | 0.30 | Header line under the logo reads "By The Gyaan Project" (was "Powered by The Gyaan Project Podcast"). |
-| 28 Sep 2026 | 0.31 | Answer page: "Found this helpful? Support the project" card between the answer and the share row, linking to Support. |
+| 28 Sep 2026 | 0.31 | Answer page: "Found this helpful? Support the project" card after the share row, linking to Support. |
