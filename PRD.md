@@ -2,7 +2,7 @@
 
 **Product:** asktgp.com
 **Owner:** Kedar Nimkar, Host of The Gyaan Project (TGP) podcast
-**Status:** Draft v0.31, a living document
+**Status:** Draft v0.32, a living document
 **Last updated:** 27 Sep 2026
 
 > This PRD will change as the product is built. Record every decision change in the **Changelog** at the bottom so Claude in VS Code always works from the current version.
@@ -278,7 +278,7 @@ Tapping a tile opens the answer as **its own page** in the same tab (a normal li
 ### 9.7 Asking a new question
 1. Submit opens `/ask?q=…` in the same tab straight away: the question in its box and, below it, a Claude-style working line: a slowly turning black ✻ and a phrase in `--ink`, 16px Bold, that changes every ~2.2 s (shuffled per visit, 18 phrases such as "Diving deep into the archive…", "Asking oracles…", "Checking with monks…", "Connecting dots…"; list in `app/ask/Thinking.tsx`). No "Short answer" label, share row or navigation until the answer exists.
 2. When the answer is saved, that page is replaced by the answer's permanent page, `/q/{slug}` (Back still goes to the homepage).
-3. If the archive doesn't cover it, or more context is needed, or something fails, the message shows in place on the asking page.
+3. If the archive doesn't cover it, there is no Short / Long answer: the page shows "Sorry. There seems to be no record of such question or answer discussed so far on The Gyaan Project." and, below it, the quote “It's the unanswered questions that makes it worth getting up in the morning.” credited to Stephen King (Author) (attribution to be verified). If more context is needed or something fails, that message shows in place instead.
 4. If the question was already answered moments ago, the existing Q&A opens instead (semantic cache later: "Someone asked this before.").
 
 ### 9.8 Motion principles
@@ -383,3 +383,4 @@ Build in small, testable steps. Each phase ends with something working.
 | 27 Sep 2026 | 0.29 | Mobile header: About, logo and Support on one line (as on desktop), with the Powered by line under the logo. |
 | 27 Sep 2026 | 0.30 | Header line under the logo reads "By The Gyaan Project" (was "Powered by The Gyaan Project Podcast"). |
 | 28 Sep 2026 | 0.31 | Answer page: "Found this helpful? Support the project" card after the share row, linking to Support. |
+| 28 Sep 2026 | 0.32 | Not-in-archive questions: no Short / Long answer blocks; an apology line and a Stephen King quote instead (attribution to verify). |

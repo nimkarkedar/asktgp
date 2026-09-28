@@ -12,9 +12,6 @@ type Outcome =
   | { kind: "needsContext"; hint?: string }
   | { kind: "error"; message?: string };
 
-const OOS_LONG =
-  "None of the 300+ conversations on The Gyaan Project touch on this yet. AskTGP only answers questions about design and art, and only from what its guests have actually said. Try asking it another way.";
-
 export default function Asking({ question }: { question: string }) {
   const router = useRouter();
   const [outcome, setOutcome] = useState<Outcome>({ kind: "pending" });
@@ -56,7 +53,19 @@ export default function Asking({ question }: { question: string }) {
       <article className="mx-auto w-full max-w-[592px] px-4 pt-8 lg:pt-14 pb-4 lg:pb-0">
         <QuestionBox question={question} />
         {outcome.kind === "pending" && <Thinking />}
-        {outcome.kind === "oos" && <AnswerBody shortAnswer="Not in the archive yet." longAnswer={OOS_LONG} />}
+        {outcome.kind === "oos" && (
+          <div className="mt-8 px-1 lg:px-4" role="status">
+            <p className="t-body">
+              Sorry. There seems to be no record of such question or answer discussed so far on The Gyaan Project.
+            </p>
+            <figure className="mt-6">
+              <blockquote className="t-body">
+                “It&apos;s the unanswered questions that makes it worth getting up in the morning.”
+              </blockquote>
+              <figcaption className="mt-1 t-small text-ink-muted">Stephen King (Author)</figcaption>
+            </figure>
+          </div>
+        )}
         {outcome.kind === "needsContext" && (
           <AnswerBody
             shortAnswer="Tell me a little more."
