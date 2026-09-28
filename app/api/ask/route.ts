@@ -107,11 +107,38 @@ const NON_NAME_TOKENS = new Set([
   "august", "september", "october", "november", "december",
 ]);
 
+// Ordinary English words that appear in descriptive episode titles
+// ("Designers with Agency", "Indic Typefaces", "Designing Temples"). They are
+// not names, so a question using them ("how should designers…") must not be
+// routed to that one episode by the name shortcut. Generated from the titles
+// against a dictionary, with real surnames (Joshi, Singh, Perry, Oak…) removed.
+// Re-check when new transcripts with descriptive titles are ingested.
+const GENERIC_TITLE_WORDS = new Set([
+  "abstract", "actor", "aesthetics", "agency", "angle", "animation", "appliance",
+  "architecture", "archives", "ark", "art", "artist", "banker", "behind", "beyond",
+  "case", "centered", "cinema", "context", "conversation", "dance", "dead", "deep",
+  "design", "designer", "designers", "designing", "discussing", "discussion", "dissent",
+  "drawings", "dreams", "earth", "education", "epistemology", "film", "films", "game",
+  "generalists", "government", "guide", "history", "home", "honest", "humans", "ideas",
+  "illustrations", "importance", "improvisation", "indic", "industrial", "insights",
+  "intensity", "introduction", "jazz", "knowing", "language", "last", "leaders",
+  "leadership", "learning", "lecture", "lessons", "lines", "logo", "manuscript",
+  "material", "materials", "matter", "means", "mela", "memory", "more", "motion",
+  "movement", "mud", "murals", "museum", "music", "new", "nid", "nuances", "order",
+  "paintings", "paper", "parallel", "peace", "pedagogy", "perspective", "philosophical",
+  "photographs", "playing", "plays", "poetry", "pot", "practical", "prof", "project",
+  "raw", "readings", "rhythm", "rock", "rupee", "scissors", "shed", "spark", "speaking",
+  "specialists", "stop", "structures", "study", "symbol", "tabla", "template",
+  "temples", "temptations", "theoretical", "thinking", "thoughts", "translation",
+  "transport", "trucks", "type", "understanding", "value", "youth",
+  "typefaces", "typeface",
+]);
+
 function tokenizeTitle(title: string): string[] {
   return title
     .split(/[\s._\-]+/)
     .map((t) => t.toLowerCase().replace(/[^a-z]/g, ""))
-    .filter((t) => t.length >= 3 && !/^\d+$/.test(t) && !NON_NAME_TOKENS.has(t));
+    .filter((t) => t.length >= 3 && !/^\d+$/.test(t) && !NON_NAME_TOKENS.has(t) && !GENERIC_TITLE_WORDS.has(t));
 }
 
 async function getTitleIndex(): Promise<TitleEntry[]> {
@@ -256,11 +283,16 @@ function stemLite(w: string): string {
   return x;
 }
 
+// Short words are usually noise, but these carry the topic of a design
+// question ("web designer", "UX", "AI in art"). They are matched as whole
+// words so "art" doesn't hit "start" and "ux" doesn't hit "luxury".
+const SHORT_TOPIC_TERMS = new Set(["web", "ux", "ui", "app", "art", "ai", "vr", "ar", "tv", "3d"]);
+
 function extractKeywords(question: string): string[] {
   const raw = question
     .toLowerCase()
     .split(/[^a-z]+/)
-    .filter((w) => w.length >= 4 && !STOPWORDS_FOR_KEYWORDS.has(w));
+    .filter((w) => (w.length >= 4 || SHORT_TOPIC_TERMS.has(w)) && !STOPWORDS_FOR_KEYWORDS.has(w));
   // Dedupe by stem
   const seen = new Set<string>();
   const out: string[] = [];
@@ -282,25 +314,40 @@ type Chunk = { episode_title: string; content: string; chunk_index?: number };
 //     "communities" + "color" when her chunks discuss both explicitly).
 //   - If AND returns nothing: fall back to OR, keep chunks with most hits.
 //   - If only 1 keyword: require just that one.
+// Whole-word pattern for short terms; substring match for longer ones.
+function isShort(k: string) {
+  return k.length < 4;
+}
+function wordPattern(k: string) {
+  return `(^|[^a-z])${k}([^a-z]|$)`;
+}
+function countHits(text: string, k: string): number {
+  const re = isShort(k)
+    ? new RegExp(wordPattern(k), "g")
+    : new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+  return (text.match(re) ?? []).length;
+}
+
+type ChunkQuery = ReturnType<typeof chunkQuery>;
+function chunkQuery() {
+  return supabase.from("transcript_chunks").select("episode_title, content, chunk_index");
+}
+function withKeyword(q: ChunkQuery, k: string): ChunkQuery {
+  return isShort(k) ? q.filter("content", "imatch", wordPattern(k)) : q.ilike("content", `%${k}%`);
+}
+
 async function keywordSearch(keywords: string[], limit = 12): Promise<Chunk[]> {
   if (keywords.length === 0) return [];
 
-  // AND: chain .ilike() calls, each narrows the set further.
+  // AND: every keyword must appear; rank by keyword density.
   if (keywords.length >= 2) {
-    let q = supabase
-      .from("transcript_chunks")
-      .select("episode_title, content, chunk_index");
-    for (const k of keywords) q = q.ilike("content", `%${k}%`);
+    let q = chunkQuery();
+    for (const k of keywords) q = withKeyword(q, k);
     const { data } = await q.limit(limit * 3);
     if (data && data.length > 0) {
-      // Score by total keyword occurrences (density) — more hits per chunk ranks higher
       const scored = data.map((r) => {
         const low = (r.content as string).toLowerCase();
-        let density = 0;
-        for (const k of keywords) {
-          const matches = low.match(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"));
-          density += matches ? matches.length : 0;
-        }
+        const density = keywords.reduce((n, k) => n + countHits(low, k), 0);
         return { ...r, score: density } as Chunk & { score: number };
       });
       scored.sort((a, b) => b.score - a.score);
@@ -308,19 +355,17 @@ async function keywordSearch(keywords: string[], limit = 12): Promise<Chunk[]> {
     }
   }
 
-  // Fallback (or single-keyword case): OR search, rank by hit count.
-  const orFilter = keywords.map((k) => `content.ilike.%${k}%`).join(",");
-  const { data, error } = await supabase
-    .from("transcript_chunks")
-    .select("episode_title, content, chunk_index")
-    .or(orFilter)
-    .limit(500);
-
-  if (error || !data) return [];
-
-  const scored = data.map((r) => {
-    const low = (r.content as string).toLowerCase();
-    const hits = keywords.filter((k) => low.includes(k)).length;
+  // Fallback (or single keyword): OR across keywords, ranked by how many
+  // different keywords each chunk contains. One query per keyword keeps the
+  // whole-word patterns out of PostgREST's or() syntax.
+  const results = await Promise.all(keywords.map((k) => withKeyword(chunkQuery(), k).limit(200)));
+  const byKey = new Map<string, Chunk>();
+  for (const { data } of results) {
+    for (const r of data ?? []) byKey.set(`${r.episode_title}::${r.chunk_index}`, r as Chunk);
+  }
+  const scored = [...byKey.values()].map((r) => {
+    const low = r.content.toLowerCase();
+    const hits = keywords.filter((k) => countHits(low, k) > 0).length;
     return { ...r, score: hits } as Chunk & { score: number };
   });
   scored.sort((a, b) => b.score - a.score);
@@ -381,18 +426,59 @@ async function getRelevantChunks(question: string): Promise<Chunk[]> {
     }
   }
 
-  // 2. Topic query: hybrid search (keyword + vector).
-  const keywords = extractKeywords(question);
-  const [kw, vec] = await Promise.all([
+  // 2. Topic query: rephrase for search, then hybrid search (keyword + vector)
+  //    over both the visitor's words and the rephrased version.
+  const rewrite = await rewriteForSearch(question);
+  const keywords = rewrite?.keywords.length ? rewrite.keywords : extractKeywords(question);
+  const [kw, vecOriginal, vecRewritten] = await Promise.all([
     keywordSearch(keywords),
-    vectorSearch(question, 10),
+    vectorSearch(question, 8),
+    rewrite ? vectorSearch(rewrite.search, 8) : Promise.resolve([] as Chunk[]),
   ]);
+  const vec = mergeHybrid(vecRewritten, vecOriginal, 12);
 
   console.log(
-    `🔍 Hybrid: keywords=[${keywords.join(", ")}] → kw:${kw.length} vec:${vec.length}`
+    `🔍 Hybrid: search="${rewrite?.search ?? question}" keywords=[${keywords.join(", ")}] → kw:${kw.length} vec:${vec.length}`
   );
-  const merged = mergeHybrid(kw, vec, 14);
-  return merged;
+  return mergeHybrid(kw, vec, 14);
+}
+
+// Turns a conversational question into what the archive would actually
+// contain: "how can you help a web designer" → "web design, interface design,
+// user experience". Cheap and fast; any failure falls back to the original
+// question so answering never depends on it.
+const REWRITE_MODEL = "claude-haiku-4-5";
+
+async function rewriteForSearch(question: string): Promise<{ search: string; keywords: string[] } | null> {
+  try {
+    const response = await client.messages.create(
+      {
+        model: REWRITE_MODEL,
+        max_tokens: 300,
+        system: `You turn a visitor's question into search terms for an archive of long-form podcast conversations with Indian designers, artists, architects, filmmakers, musicians and writers.
+
+Return ONLY JSON: {"search": string, "keywords": string[]}
+- "search": one plain sentence naming the topics a conversation would have to discuss to answer the question, in the words guests would use (e.g. "web design, interface design and user experience advice for designers").
+- "keywords": 2 to 4 single lowercase words that would literally appear in such a conversation. Most specific first. No generic words like "design", "designer", "advice", "help".
+- If the question addresses the tool itself ("how can you help me as a web designer"), treat it as asking what these conversations offer that person.`,
+        messages: [{ role: "user", content: question }],
+      },
+      { timeout: 5000, maxRetries: 0 }
+    );
+    const text = response.content.find((b) => b.type === "text")?.text ?? "";
+    const json = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
+    const search = typeof json.search === "string" ? json.search.trim() : "";
+    const keywords = Array.isArray(json.keywords)
+      ? json.keywords
+          .map((k: unknown) => String(k).toLowerCase().trim())
+          .filter((k: string) => /^[a-z]{2,20}$/.test(k))
+          .slice(0, 4)
+      : [];
+    return search ? { search, keywords } : null;
+  } catch (err) {
+    console.error("rewriteForSearch failed, using the original question:", err instanceof Error ? err.message : err);
+    return null;
+  }
 }
 
 // Random meme / reaction GIFs shown when a question is out of syllabus.
@@ -452,7 +538,9 @@ Return outOfSyllabus when:
 
 Do NOT return outOfSyllabus just because the excerpts require interpretation. If there is a plausible thread in the excerpts that connects to the question, draw from it. But never fabricate, never bluff, never "puff" an answer using general AI knowledge.
 
-When in doubt between answering weakly and returning outOfSyllabus — choose outOfSyllabus.`;
+Closely related is enough: if the question is about one field and the excerpts discuss a neighbouring one that clearly applies (for example interface or UX design for a question about web design, or type design for a question about fonts), answer from what the excerpts actually say. If the question addresses Ask TGP itself ("how can you help me as a web designer"), answer what these conversations offer that person.
+
+Return outOfSyllabus only when nothing in the excerpts genuinely speaks to the question.`;
 
   return `You are the oracle of Ask TGP — a distillation of wisdom from The Gyaan Project's full knowledge base: 300+ podcast conversations with artists, designers, and creative thinkers, alongside books, white papers, and presentations on design and art.
 
