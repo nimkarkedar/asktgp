@@ -473,15 +473,13 @@ ${referencesInstruction}
 
 HARD LIMITS:
 - The "long" answer must be between 120 and 150 words, drawn verbatim (or near-verbatim) from ONE single most-relevant episode. Never mash up multiple episodes.
-- The "endingQuestion" is a single short sentence — a James Clear 3-2-1 style closing prompt that opens contemplation. No preamble.
-- Never mention any guest, person, or interviewee name anywhere in short, long, or endingQuestion.
+- Never mention any guest, person, or interviewee name anywhere in short or long.
 - Never use hyphens or em-dashes anywhere. Use commas, periods, or restructure.
 
 Respond ONLY in this exact JSON format, with no text outside it:
 {
   "short": "The koan here (2 to 5 words)",
   "long": "The detailed answer here (120 to 150 words), using \\n\\n to separate paragraphs.",
-  "endingQuestion": "A single powerful closing question.",
   "references": [
     { "name": "Guest Name", "profession": "Profession" }
   ]
@@ -573,7 +571,6 @@ export async function POST(req: NextRequest) {
 
     if (parsed.long) parsed.long = sanitize(parsed.long);
     if (parsed.short) parsed.short = sanitize(parsed.short);
-    if (parsed.endingQuestion) parsed.endingQuestion = sanitize(parsed.endingQuestion);
 
     // Soft cap: allow up to 150 words. Only truncate if model overshoots.
     if (parsed.long) {
